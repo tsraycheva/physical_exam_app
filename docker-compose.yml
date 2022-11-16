@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  db:
+    restart: always
+    image: postgres:13.6
+    container_name: physical_exam_db
+    environment:
+      - POSTGRES_DB=physical_exam
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - exam-data:/var/lib/postgresql/data
+
+volumes:
+  exam-data:

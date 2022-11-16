@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: ${app.datasource.url}
+    username: ${app.datasource.username}
+    password: ${app.datasource.password}
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate.ddl-auto: validate
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      format_sql: true
+      jdbc:
+        lob.non_contextual_creation: true
+        time_zone: UTC
+  flyway:
+    enable: true
+    baseline-on-migrate: true
+    baseline-version: 1
+    driver-class-name: org.postgresql.Driver
+    url: ${app.datasource.url}
+    user: ${app.datasource.username}
+    password: ${app.datasource.password}
+    locations: classpath:db/migration
+
+
+app:
+  datasource:
+    vendor: postgres
+    url: jdbc:postgresql://localhost:5432/physical_exam
+    username: user
+    password: password
