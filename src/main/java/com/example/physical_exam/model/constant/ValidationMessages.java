@@ -3,7 +3,7 @@ package com.example.physical_exam.model.constant;
 /**
  * Messages that are used for Entity validation
  */
-public class EntityValidationMessages {
+public class ValidationMessages {
 
     public static final String FIELD_VALIDATION_NAME_LENGTH = "Filed name must be between 3 and 50 characters!";
     public static final String FIELD_VALIDATION_NAME_NOT_BLANK = "Filed name must not be blank!";
