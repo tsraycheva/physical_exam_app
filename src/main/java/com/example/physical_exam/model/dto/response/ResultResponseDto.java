@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResultResponseDto {
 
-    private Long employeeId;
+    private String employeeNames;
     private Integer yearOfPerformance;
     private Integer runningTimeInSeconds;
     private Integer crunchesCount;

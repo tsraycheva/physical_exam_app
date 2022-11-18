@@ -5,7 +5,5 @@ CREATE TABLE results (
     crunches_count          INT,
     push_ups_count          INT,
     jump_in_centimeters     INT,
-    conclusion              VARCHAR(6) NOT NULL,
-    employee_id             BIGINT,
-    FOREIGN KEY (employee_id) REFERENCES employees (id)
+    conclusion              VARCHAR(6) NOT NULL
 );

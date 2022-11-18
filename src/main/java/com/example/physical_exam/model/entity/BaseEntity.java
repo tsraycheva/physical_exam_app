@@ -3,6 +3,7 @@ package com.example.physical_exam.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.MappedSuperclass;
  * for all entity classes that use id as a primary key
  */
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass

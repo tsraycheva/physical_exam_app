@@ -28,16 +28,16 @@ public class ResultCreationRequestDto {
     @Min(value = 2000)
     private Integer yearOfPerformance;
 
-    @Positive(message = RESULT_OF_EXECUTION_POSITIVE)
+    @Min(value = 0, message = RESULT_OF_EXECUTION_POSITIVE)
     private Integer runningTimeInSeconds;
 
-    @Positive(message = RESULT_OF_EXECUTION_POSITIVE)
+    @Min(value = 0, message = RESULT_OF_EXECUTION_POSITIVE)
     private Integer crunchesCount;
 
-    @Positive(message = RESULT_OF_EXECUTION_POSITIVE)
+    @Min(value = 0, message = RESULT_OF_EXECUTION_POSITIVE)
     private Integer pushUpsCount;
 
-    @Positive(message = RESULT_OF_EXECUTION_POSITIVE)
+    @Min(value = 0, message = RESULT_OF_EXECUTION_POSITIVE)
     private Integer jumpInCentimeters;
 
 }

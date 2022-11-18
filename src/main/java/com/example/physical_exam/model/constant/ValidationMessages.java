@@ -1,7 +1,7 @@
 package com.example.physical_exam.model.constant;
 
 /**
- * Messages that are used for Entity validation
+ * Messages that are used for Entity and Dto validation
  */
 public class ValidationMessages {
 
