@@ -10,3 +10,13 @@ or has failed. The application stores the results by year and can produce differ
 Execute:
 1. docker network create physical_exam
 2. docker compose up -d
+
+### OpenApiDocumentation (Swagger)
+http://localhost:8080/swagger-ui/index.html
+
+## The next steps will be creating
+1. more complex endpoints
+2. logging
+3. postman collection
+4. caching
+5. unit tests

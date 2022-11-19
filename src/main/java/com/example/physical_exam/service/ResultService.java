@@ -1,6 +1,7 @@
 package com.example.physical_exam.service;
 
 import com.example.physical_exam.model.dto.request.ResultCreationRequestDto;
+import com.example.physical_exam.model.dto.response.ResultCreationResponseDto;
 import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Result;
 
@@ -15,9 +16,9 @@ public interface ResultService {
      * Method that serves for saving a {@link Result} from exam of an Employee
      *
      * @param requestDto {@link ResultCreationRequestDto}
-     * @return {@link ResultResponseDto} with information and conclusion
+     * @return {@link ResultCreationResponseDto} with information and conclusion
      */
-    ResultResponseDto saveResult(ResultCreationRequestDto requestDto);
+    ResultCreationResponseDto saveResult(ResultCreationRequestDto requestDto);
 
     /**
      * Method that searches for {@link Result} by year of performance

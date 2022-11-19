@@ -2,6 +2,7 @@ package com.example.physical_exam.web;
 
 import com.example.physical_exam.exception.CanNotPerformOperationException;
 import com.example.physical_exam.model.dto.request.ResultCreationRequestDto;
+import com.example.physical_exam.model.dto.response.ResultCreationResponseDto;
 import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Result;
 import com.example.physical_exam.service.ResultService;
@@ -39,7 +40,7 @@ public class ResultController {
      * Endpoint for making a request for saving a result from exam of an employee
      *
      * @param requestDto {@link ResultCreationRequestDto} with needed information from exam
-     * @return {@link ResultResponseDto} with stored Result
+     * @return {@link ResultCreationResponseDto} with stored Result
      */
     @Operation(
             tags  = "result",
@@ -50,7 +51,7 @@ public class ResultController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ResultResponseDto.class),
+                            content = @Content(schema = @Schema(implementation = ResultCreationResponseDto.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Successful operation!"),
                     @ApiResponse(
@@ -59,8 +60,8 @@ public class ResultController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
     @PostMapping
-    public ResultResponseDto saveResult(@RequestBody @Valid ResultCreationRequestDto requestDto) {
-        ResultResponseDto savedResult = resultService.saveResult(requestDto);
+    public ResultCreationResponseDto saveResult(@RequestBody @Valid ResultCreationRequestDto requestDto) {
+        ResultCreationResponseDto savedResult = resultService.saveResult(requestDto);
 
         return savedResult;
     }

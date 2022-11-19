@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,9 +32,10 @@ import static com.example.physical_exam.model.constant.ValidationMessages.YEAR_P
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "results")
 public class Result extends BaseEntity {
-    
+
     @ManyToMany
     @JoinTable(name = "employees_results",
             joinColumns = @JoinColumn(name = "result_id", referencedColumnName = "id"),

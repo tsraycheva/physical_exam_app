@@ -2,6 +2,7 @@ package com.example.physical_exam.service.impl;
 
 import com.example.physical_exam.model.dto.request.ResultCreationRequestDto;
 import com.example.physical_exam.model.dto.response.EmployeeResponseDto;
+import com.example.physical_exam.model.dto.response.ResultCreationResponseDto;
 import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Employee;
 import com.example.physical_exam.model.entity.Exercise;
@@ -12,6 +13,7 @@ import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.EmployeeService;
 import com.example.physical_exam.service.ExerciseService;
 import com.example.physical_exam.service.ResultService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ResultServiceImpl implements ResultService {
 
     private static final String CRUNCHES_EXERCISE = "crunches";
@@ -39,7 +42,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public ResultResponseDto saveResult(ResultCreationRequestDto requestDto) {
+    public ResultCreationResponseDto saveResult(ResultCreationRequestDto requestDto) {
         Result resultToSave = modelMapper.map(requestDto, Result.class);
 
         Conclusion conclusion = makeConclusion(requestDto);
@@ -51,11 +54,13 @@ public class ResultServiceImpl implements ResultService {
         resultToSave.setEmployees(List.of(employee));
 
         Result savedResult = resultRepository.save(resultToSave);
-        ResultResponseDto savedResultResponse = modelMapper.map(savedResult, ResultResponseDto.class);
+        ResultCreationResponseDto savedResultResponse = modelMapper.map(savedResult, ResultCreationResponseDto.class);
 
         String employeeFirstName = employee.getFirstName();
         String employeeLastName = employee.getLastName();
         savedResultResponse.setEmployeeNames(employeeFirstName.concat(" ").concat(employeeLastName));
+
+        log.info("Result with id {} for employee with id {} saved.", savedResult.getId(), employee.getId());
 
         return savedResultResponse;
     }
@@ -63,6 +68,8 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public List<ResultResponseDto> findResultsForSpecifiedYear(Integer year) {
         List<Result> results = resultRepository.findAllByYearOfPerformance(year);
+
+        log.info("When searching for all results from exam performed in {} year, found {} results.", year, results.size());
 
         return results
                 .stream()

@@ -8,14 +8,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Response Dto class that is used for the output of obtaining {@link Result}
+ * Response Dto class that is used for the output of obtaining saved {@link Result}
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultResponseDto extends BaseResponseDto {
+public class ResultCreationResponseDto {
 
+    private String employeeNames;
     private Integer yearOfPerformance;
     private Integer runningTimeInSeconds;
     private Integer crunchesCount;
