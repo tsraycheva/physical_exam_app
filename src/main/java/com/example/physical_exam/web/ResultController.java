@@ -5,6 +5,8 @@ import com.example.physical_exam.model.dto.request.ResultCreationRequestDto;
 import com.example.physical_exam.model.dto.response.ResultCreationResponseDto;
 import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Result;
+import com.example.physical_exam.model.enumeration.Conclusion;
+import com.example.physical_exam.model.enumeration.SortingOrder;
 import com.example.physical_exam.service.ResultService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -67,22 +69,36 @@ public class ResultController {
     }
 
     /**
-     * Endpoint that makes request to find all results from a specified year of performance.
+     * Endpoint that makes request to find all results. They may be obtained by specified year of performance,
+     * conclusion of performance and sorted by employee id ACS ot DESC. However, the params are nor required
+     * and if none of them is passed, all the results will appear.
      *
-     * @param year of performance
+     * @param year of performance Integer
+     * @param conclusion of performance {@link Conclusion}
+     * @param order of appearance {@link SortingOrder}
      * @return list {@link ResultResponseDto} with all results from a specified year
      * or empty list if no results are found
      */
     @Operation(
             tags  = "result",
-            summary = "Method for searching all results by year of performance.",
-            operationId = "findAllResultsByYear",
+            summary = "Method for searching all results by year of performance and/or conclusion, ordered by employee id.",
+            operationId = "findAllResults",
             parameters = {
                     @Parameter(
                             in = ParameterIn.QUERY,
                             name = "year",
                             description = "year of performance of the searched results",
-                            example = "2020")},
+                            example = "2000"),
+                    @Parameter(
+                            in = ParameterIn.QUERY,
+                            name = "conclusion",
+                            description = "conclusion of performance of the searched results",
+                            example = "PASSED"),
+                    @Parameter(
+                            in = ParameterIn.QUERY,
+                            name = "order",
+                            description = "order of appearance of the searched results",
+                            example = "ASC")},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -95,9 +111,22 @@ public class ResultController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
     @GetMapping
-    public List<ResultResponseDto> getAllResultsByYear(@RequestParam Integer year) {
-        List<ResultResponseDto> resultsForSpecifiedYear = resultService.findResultsForSpecifiedYear(year);
+    public List<ResultResponseDto> getAllResultsByYearAndByConclusion(@RequestParam(required = false) Integer year,
+                                                                      @RequestParam(required = false) Conclusion conclusion,
+                                                                      @RequestParam(required = false) SortingOrder order) {
+        List<ResultResponseDto> results;
 
-        return resultsForSpecifiedYear;
+        if (conclusion == null && year != null) {
+            results = resultService.findResultsForSpecifiedYear(year, order);
+        } else if (conclusion != null && year == null) {
+            results = resultService.findAllResultsByConclusion(conclusion, order);
+        } else if (conclusion == null && year == null) {
+            results = resultService.findAllResults();
+        } else {
+            results = resultService.findResultsByYearAndByConclusion(year, conclusion, order);
+        }
+
+        return results;
     }
+
 }

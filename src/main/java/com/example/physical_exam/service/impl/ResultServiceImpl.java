@@ -9,6 +9,7 @@ import com.example.physical_exam.model.entity.Exercise;
 import com.example.physical_exam.model.entity.Result;
 import com.example.physical_exam.model.enumeration.Conclusion;
 import com.example.physical_exam.model.enumeration.Gender;
+import com.example.physical_exam.model.enumeration.SortingOrder;
 import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.EmployeeService;
 import com.example.physical_exam.service.ExerciseService;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,8 +68,57 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<ResultResponseDto> findResultsForSpecifiedYear(Integer year) {
-        List<Result> results = resultRepository.findAllByYearOfPerformance(year);
+    public List<ResultResponseDto> findAllResultsByConclusion(Conclusion conclusion, SortingOrder order) {
+        List<Result> results = resultRepository.findAllByConclusionOrderByEmployeesId(conclusion);
+
+        if (order == SortingOrder.DESC) {
+            Collections.reverse(results);
+        }
+
+        log.info("When searching for all results by conclusion {}, found {} results.", conclusion, results.size());
+
+        return results
+                .stream()
+                .map(r -> modelMapper.map(r, ResultResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResultResponseDto> findResultsByYearAndByConclusion(Integer year, Conclusion conclusion, SortingOrder order) {
+        List<Result> results = resultRepository.findAllByYearOfPerformanceAndConclusionOrderByEmployeesId(year, conclusion);
+
+        if (order == SortingOrder.DESC) {
+            Collections.reverse(results);
+        }
+
+        log.info("When searching for all results from exam performed in {} year wit {} conclusion, found {} results.",
+                year, conclusion, results.size());
+
+        return results
+                .stream()
+                .map(r -> modelMapper.map(r, ResultResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResultResponseDto> findAllResults() {
+        List<Result> results = resultRepository.findAll();
+
+        log.info("When searching for all results, found {} results.", results.size());
+
+        return results
+                .stream()
+                .map(r -> modelMapper.map(r, ResultResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResultResponseDto> findResultsForSpecifiedYear(Integer year, SortingOrder order) {
+        List<Result> results = resultRepository.findAllByYearOfPerformanceOrderByEmployeesId(year);
+
+        if (order == SortingOrder.DESC) {
+            Collections.reverse(results);
+        }
 
         log.info("When searching for all results from exam performed in {} year, found {} results.", year, results.size());
 
