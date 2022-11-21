@@ -29,7 +29,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final ModelMapper modelMapper;
     private final ResultRepository resultRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, ResultRepository resultRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository,
+                               ModelMapper modelMapper,
+                               ResultRepository resultRepository) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
 
@@ -104,7 +106,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                         .map(e -> modelMapper.map(e, EmployeeResponseDto.class))
                         .collect(Collectors.toList());
 
-        log.info("When searching for all employees of {} gender, there are {} found.", gender.toString(), allEmployeesByGender.size());
+        log.info("When searching for all employees of {} gender, there are {} found.", gender.toString(),
+                allEmployeesByGender.size());
 
         return allEmployeesByGender;
     }

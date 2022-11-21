@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
+
     List<Exercise> findAllByGender(Gender gender);
+
     Optional<Exercise> findExerciseByGenderAndName(Gender gender, String name);
 }
