@@ -3,6 +3,7 @@
 Physical_exam is the BE part of an application for storing results from physical examination. It is made for employees in Fire Departments. 
 The requirements for the different exercises depend on the gender of the employees and there is conclusion if the specified employee has passed the exam 
 or has failed. The application stores the results by year and can produce different types of information.
+There are logging and caching implementations.
 
 ## Settings
 
@@ -15,8 +16,5 @@ Execute:
 http://localhost:8080/swagger-ui/index.html
 
 ## The next steps will be creating
-1. more complex endpoints
-2. logging
-3. postman collection
-4. caching
-5. unit tests
+1.postman collection with possible requests
+2.unit tests for test coverage
