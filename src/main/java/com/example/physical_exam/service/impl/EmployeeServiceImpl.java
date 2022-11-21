@@ -3,9 +3,14 @@ package com.example.physical_exam.service.impl;
 import com.example.physical_exam.exception.ResourceNotFoundException;
 import com.example.physical_exam.model.dto.request.EmployeeCreationRequestDto;
 import com.example.physical_exam.model.dto.response.EmployeeResponseDto;
+import com.example.physical_exam.model.dto.response.EmployeeResultsResponseDto;
+import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Employee;
+import com.example.physical_exam.model.entity.Result;
+import com.example.physical_exam.model.enumeration.Conclusion;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.repository.EmployeeRepository;
+import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -20,10 +25,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
+    private final ResultRepository resultRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, ResultRepository resultRepository) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
+
+        this.resultRepository = resultRepository;
     }
 
     @Override
@@ -103,4 +111,172 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return savedEmployee;
     }
+
+    @Override
+    public List<EmployeeResultsResponseDto> findAllEmployeesResults(Conclusion conclusion, Integer year) {
+        List<Employee> foundEmployees = employeeRepository.findAll();
+        List<EmployeeResultsResponseDto> foundEmployeesResponse;
+
+        if (conclusion != null && year == null) {
+            foundEmployeesResponse = findAllEmployeesResultsByConclusion(conclusion, foundEmployees);
+        } else if (conclusion == null && year != null) {
+            foundEmployeesResponse = findAllEmployeesResultsByYear(year, foundEmployees);
+        } else if (conclusion != null && year != null) {
+            foundEmployeesResponse = findAllEmployeesResultsByConclusionAndYear(conclusion, year, foundEmployees);
+        } else {
+            foundEmployeesResponse = findAllEmployeesResults(foundEmployees);
+        }
+
+        log.info("When searching for all employees with results by conclusion - {} and year - {}, found {} employees.",
+                conclusion, year, foundEmployeesResponse.size());
+
+        return foundEmployeesResponse;
+    }
+
+    /**
+     * Method that obtains all employees that have been on exam and have at least one result
+     *
+     * @param foundEmployees list with all employees in database
+     * @return list of {@link EmployeeResultsResponseDto} with data of all employees and their results
+     */
+    private List<EmployeeResultsResponseDto> findAllEmployeesResults(List<Employee> foundEmployees) {
+        List<EmployeeResultsResponseDto> employees =
+                foundEmployees
+                        .stream()
+                        .map(e -> {
+                            EmployeeResultsResponseDto responseEmployee = getEmployeeWithNamesResponseDto(e);
+
+                            List<Result> result = resultRepository.findResultByEmployeesId(e.getId());
+
+                            return getEmployeeResultsResponseDto(responseEmployee, result);
+                        })
+                        .filter(employeeResultsResponseDto -> employeeResultsResponseDto.getResultResponseDto().size() != 0)
+                        .collect(Collectors.toList());
+
+        return employees;
+    }
+
+    /**
+     * Method that obtains all employees with their results by {@link Conclusion}
+     * and filters them so that only employees with results are in the list
+     *
+     * @param conclusion     {@link Conclusion} PASSED or FAILED
+     * @param foundEmployees list with all employees in database
+     * @return list of {@link EmployeeResultsResponseDto}
+     */
+    private List<EmployeeResultsResponseDto> findAllEmployeesResultsByConclusion(Conclusion conclusion,
+                                                                                 List<Employee> foundEmployees) {
+
+        List<EmployeeResultsResponseDto> employees =
+                foundEmployees
+                        .stream()
+                        .map(e -> {
+                            EmployeeResultsResponseDto responseEmployee = getEmployeeWithNamesResponseDto(e);
+
+                            List<Result> result = resultRepository
+                                    .findResultByEmployeesIdAndConclusion(e.getId(), conclusion);
+
+                            return getEmployeeResultsResponseDto(responseEmployee, result);
+                        })
+                        .filter(employeeResultsResponseDto -> employeeResultsResponseDto.getResultResponseDto().size() != 0)
+                        .collect(Collectors.toList());
+
+        return employees;
+    }
+
+    /**
+     * Method that obtains all employees with their results by year of performance
+     * and filters them so that only employees with results are in the list
+     *
+     * @param year           of performance Integer
+     * @param foundEmployees list with all employees in database
+     * @return list of {@link EmployeeResultsResponseDto}
+     */
+    private List<EmployeeResultsResponseDto> findAllEmployeesResultsByYear(Integer year,
+                                                                           List<Employee> foundEmployees) {
+        List<EmployeeResultsResponseDto> employees =
+                foundEmployees
+                        .stream()
+                        .map(e -> {
+                            EmployeeResultsResponseDto responseEmployee = getEmployeeWithNamesResponseDto(e);
+
+                            List<Result> result = resultRepository
+                                    .findResultByEmployeesIdAndYearOfPerformance(e.getId(), year);
+
+                            return getEmployeeResultsResponseDto(responseEmployee, result);
+                        })
+                        .filter(employeeResultsResponseDto -> employeeResultsResponseDto.getResultResponseDto().size() != 0)
+                        .collect(Collectors.toList());
+
+        return employees;
+    }
+
+    /**
+     * Method that obtains all employees with their results by {@link Conclusion} and year of performance
+     * and filters them so that only employees with results are in the list
+     *
+     * @param conclusion     {@link Conclusion} PASSED or FAILED
+     * @param year           year of performance Integer
+     * @param foundEmployees list with all employees in database
+     * @return list of {@link EmployeeResultsResponseDto}
+     */
+    private List<EmployeeResultsResponseDto> findAllEmployeesResultsByConclusionAndYear(Conclusion conclusion,
+                                                                                        Integer year,
+                                                                                        List<Employee> foundEmployees) {
+        List<EmployeeResultsResponseDto> employees =
+                foundEmployees
+                        .stream()
+                        .map(e -> {
+                            EmployeeResultsResponseDto responseEmployee = getEmployeeWithNamesResponseDto(e);
+
+                            List<Result> result = resultRepository
+                                    .findResultByEmployeesIdAndConclusionAndYearOfPerformance(e.getId(), conclusion, year);
+
+                            return getEmployeeResultsResponseDto(responseEmployee, result);
+                        })
+                        .filter(employeeResultsResponseDto -> employeeResultsResponseDto.getResultResponseDto().size() != 0)
+                        .collect(Collectors.toList());
+
+        return employees;
+    }
+
+    /**
+     * Method that finds the results of an employee by its id, maps the results to {@link ResultResponseDto} and sets
+     * the response to the specified employee
+     *
+     * @param responseEmployee {@link EmployeeResponseDto}
+     * @param result           list of all {@link Result} that the employee has achieved
+     * @return {@link EmployeeResultsResponseDto} with set {@link ResultResponseDto}
+     */
+    private EmployeeResultsResponseDto getEmployeeResultsResponseDto(EmployeeResultsResponseDto responseEmployee,
+                                                                     List<Result> result) {
+        List<ResultResponseDto> resultByEmployeeId = List.of();
+
+        if (result != null) {
+            resultByEmployeeId = result.stream().map(r -> modelMapper.map(r, ResultResponseDto.class))
+                    .collect(Collectors.toList());
+        }
+
+        responseEmployee.setResultResponseDto(resultByEmployeeId);
+
+        return responseEmployee;
+    }
+
+    /**
+     * Method that converts {@link Employee} to {@link EmployeeResultsResponseDto} and sets employee's names and
+     * identification number to the Dto
+     *
+     * @param e {@link Employee} to be converted
+     * @return {@link EmployeeResultsResponseDto}
+     */
+    private EmployeeResultsResponseDto getEmployeeWithNamesResponseDto(Employee e) {
+        EmployeeResultsResponseDto responseEmployee = modelMapper.map(e, EmployeeResultsResponseDto.class);
+
+        String employeeNames = e.getFirstName() + " " + e.getLastName();
+        responseEmployee.setEmployeeNames(employeeNames);
+        Integer employeeIdentityNumber = e.getIdentificationNumber();
+        responseEmployee.setIdentificationNumber(employeeIdentityNumber);
+        return responseEmployee;
+    }
+
 }

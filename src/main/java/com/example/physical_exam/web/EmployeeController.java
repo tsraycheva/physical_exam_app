@@ -4,7 +4,9 @@ import com.example.physical_exam.exception.CanNotPerformOperationException;
 import com.example.physical_exam.exception.ResourceNotFoundException;
 import com.example.physical_exam.model.dto.request.EmployeeCreationRequestDto;
 import com.example.physical_exam.model.dto.response.EmployeeResponseDto;
+import com.example.physical_exam.model.dto.response.EmployeeResultsResponseDto;
 import com.example.physical_exam.model.entity.Employee;
+import com.example.physical_exam.model.enumeration.Conclusion;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +46,7 @@ public class EmployeeController {
      * @return found {@link EmployeeResponseDto}
      */
     @Operation(
-            tags  = "employee",
+            tags = "employee",
             summary = "Method for searching an employee by id.",
             operationId = "findEmployeeById",
             parameters = {@Parameter(in = ParameterIn.PATH, name = "id", description = "id of the searched employee", example = "1")},
@@ -74,13 +76,11 @@ public class EmployeeController {
      * Endpoint for making a request to search for a specified employee by its identification number
      *
      * @param identityNumber of the searched employee
-     * @return found {@link EmployeeResponseDto}  if the identification number is passed. If it is not -
-     * the result will be a list of all employees in database
+     * @return found {@link EmployeeResponseDto} by the identification number
      */
     @Operation(
-            tags  = "employee",
-            summary = "Method for searching an employee by identificationNumber. " +
-                    "If identificationNumber is not passed, the response will hold all employees in database.",
+            tags = "employee",
+            summary = "Method for searching an employee by identificationNumber.",
             operationId = "findEmployeeByIdentityNumber",
             parameters = {@Parameter(in = ParameterIn.QUERY, name = "identityNumber", description = "identificationNumber of the searched employee", example = "1")},
             responses = {
@@ -99,16 +99,37 @@ public class EmployeeController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Not Found!")})
     @GetMapping("/identityNumber")
-    public List<EmployeeResponseDto> getEmployeeByIdentificationNumber(@RequestParam(required = false, name = "identityNumber") Integer identityNumber) {
+    public EmployeeResponseDto getEmployeeByIdentificationNumber(@RequestParam(name = "identityNumber") Integer identityNumber) {
 
-        List<EmployeeResponseDto> employees;
+        EmployeeResponseDto employeeResponseDto = employeeService.findEmployeeByIdentityNumber(identityNumber);
 
-        if (identityNumber == null) {
-            employees = employeeService.findAllEmployees();
-        } else {
-            EmployeeResponseDto employeeResponseDto = employeeService.findEmployeeByIdentityNumber(identityNumber);
-            employees = List.of(employeeResponseDto);
-        }
+        return employeeResponseDto;
+    }
+
+    /**
+     * Endpoint for making a request to search for all employees
+     *
+     * @return list of all employees wrapped into {@link EmployeeResponseDto}
+     */
+    @Operation(
+            tags = "employee",
+            summary = "Method for searching all employees in database.",
+            operationId = "findAllEmployees",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = EmployeeResponseDto.class),
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE),
+                            description = "Successful operation!"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            content = @Content(schema = @Schema(implementation = CanNotPerformOperationException.class),
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE),
+                            description = "Operation failed!")})
+    @GetMapping("/all")
+    public List<EmployeeResponseDto> getListOfAllEmployees() {
+
+        List<EmployeeResponseDto> employees = employeeService.findAllEmployees();
 
         return employees;
     }
@@ -121,7 +142,7 @@ public class EmployeeController {
      * If there are no employees from the given gender, the result will be an empty list
      */
     @Operation(
-            tags  = "employee",
+            tags = "employee",
             summary = "Method for searching all employees by gender.",
             operationId = "findAllEmployeesByGender",
             parameters = {
@@ -139,8 +160,8 @@ public class EmployeeController {
                             content = @Content(schema = @Schema(implementation = CanNotPerformOperationException.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
-    @GetMapping
-    public List<EmployeeResponseDto> getEmployeesByGender(@RequestParam(value = "gender") Gender gender) {
+    @GetMapping("/gender")
+    public List<EmployeeResponseDto> getEmployeesByGender(@RequestParam Gender gender) {
         List<EmployeeResponseDto> employees = employeeService.findAllByGender(gender);
 
         return employees;
@@ -153,7 +174,7 @@ public class EmployeeController {
      * @return saved employee wrapped in {@link EmployeeResponseDto}
      */
     @Operation(
-            tags  = "employee",
+            tags = "employee",
             summary = "Method for saving an employee",
             operationId = "saveEmployee",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Data transfer object to save an employee.",
@@ -174,5 +195,50 @@ public class EmployeeController {
         EmployeeResponseDto savedEmployee = employeeService.saveEmployee(employeeRequestDto);
 
         return savedEmployee;
+    }
+
+    /**
+     * Endpoint for making a request to find all employees and their results by year of performance
+     * and/or conclusion.
+     *
+     * @param conclusion {@link Conclusion} of performance
+     * @param year of performance
+     * @return list of {@link EmployeeResultsResponseDto} containing only employees that have results
+     * and filtered by passed parameters
+     */
+    @Operation(
+            tags  = "employee",
+            summary = "Method for searching all employees and their results by year of performance and/or conclusion.",
+            operationId = "findEmployeesAndResults",
+            parameters = {
+                    @Parameter(
+                            in = ParameterIn.QUERY,
+                            name = "conclusion",
+                            description = "conclusion of performance of employees",
+                            example = "PASSED"),
+                    @Parameter(
+                            in = ParameterIn.QUERY,
+                            name = "year",
+                            description = "year of performance of employees",
+                            example = "2000"),
+                    },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = EmployeeResultsResponseDto.class),
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE),
+                            description = "Successful operation!"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            content = @Content(schema = @Schema(implementation = CanNotPerformOperationException.class),
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE),
+                            description = "Operation failed!")})
+    @GetMapping
+    public List<EmployeeResultsResponseDto> getAllEmployeesAndResultsByConclusion(@RequestParam(required = false) Conclusion conclusion,
+                                                                                  @RequestParam(required = false) Integer year) {
+
+        List<EmployeeResultsResponseDto> allEmployeesResults = employeeService.findAllEmployeesResults(conclusion, year);
+
+        return allEmployeesResults;
     }
 }

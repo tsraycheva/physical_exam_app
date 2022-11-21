@@ -49,16 +49,19 @@ public class ResultController {
             summary = "Method for saving a result from exam of an employee",
             operationId = "saveResult",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Data transfer object to save a result.",
-                    content = @Content(schema = @Schema(implementation = ResultCreationRequestDto.class))),
+                    content = @Content(schema = @Schema(
+                            implementation = ResultCreationRequestDto.class))),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ResultCreationResponseDto.class),
+                            content = @Content(schema = @Schema(
+                                    implementation = ResultCreationResponseDto.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Successful operation!"),
                     @ApiResponse(
                             responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = CanNotPerformOperationException.class),
+                            content = @Content(schema = @Schema(
+                                    implementation = CanNotPerformOperationException.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
     @PostMapping
@@ -102,12 +105,14 @@ public class ResultController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ResultResponseDto.class),
+                            content = @Content(schema = @Schema(
+                                    implementation = ResultResponseDto.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Successful operation!"),
                     @ApiResponse(
                             responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = CanNotPerformOperationException.class),
+                            content = @Content(schema = @Schema(
+                                    implementation = CanNotPerformOperationException.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
     @GetMapping

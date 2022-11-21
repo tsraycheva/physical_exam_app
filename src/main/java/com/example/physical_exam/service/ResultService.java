@@ -56,4 +56,5 @@ public interface ResultService {
      * @return list of {@link ResultResponseDto} with all results
      */
     List<ResultResponseDto> findAllResults();
+
 }

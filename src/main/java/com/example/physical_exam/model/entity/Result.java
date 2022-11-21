@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -36,7 +37,7 @@ import static com.example.physical_exam.model.constant.ValidationMessages.YEAR_P
 @Table(name = "results")
 public class Result extends BaseEntity {
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "employees_results",
             joinColumns = @JoinColumn(name = "result_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))

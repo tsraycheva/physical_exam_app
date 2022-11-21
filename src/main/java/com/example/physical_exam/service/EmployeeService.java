@@ -2,6 +2,8 @@ package com.example.physical_exam.service;
 
 import com.example.physical_exam.model.dto.request.EmployeeCreationRequestDto;
 import com.example.physical_exam.model.dto.response.EmployeeResponseDto;
+import com.example.physical_exam.model.dto.response.EmployeeResultsResponseDto;
+import com.example.physical_exam.model.enumeration.Conclusion;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.model.entity.Employee;
 
@@ -50,4 +52,15 @@ public interface EmployeeService {
      * @return saved Employee wrapped into {@link EmployeeResponseDto}
      */
     EmployeeResponseDto saveEmployee(EmployeeCreationRequestDto employeeRequestDto);
+
+    /**
+     * Method that finds all employees in database.It checks if the params conclusion and year
+     * are passed and after that calls the needed method to filter them by
+     *
+     * @param conclusion {@link Conclusion} of performance
+     * @param year of performance
+     * @return list of {@link EmployeeResultsResponseDto} containing all employees that have results,
+     * filtered by the passed parameter
+     */
+    List<EmployeeResultsResponseDto> findAllEmployeesResults(Conclusion conclusion, Integer year);
 }
