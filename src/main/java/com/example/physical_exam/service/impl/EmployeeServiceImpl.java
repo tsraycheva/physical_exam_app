@@ -55,25 +55,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeResponse;
     }
 
-    @Override
-    @Cacheable(value = "employees", key = "#identificationNumber")
-    public EmployeeResponseDto findEmployeeByIdentityNumber(Integer identificationNumber) {
 
+    @Override
+    @Cacheable(value = "employees", key = "#identityNumber")
+    public EmployeeResultsResponseDto findEmployeeAndResultsByIdentityNumber(Integer identityNumber) {
         Employee employee = employeeRepository
-                .findEmployeeByIdentificationNumber(identificationNumber)
+                .findEmployeeByIdentificationNumber(identityNumber)
                 .orElse(null);
 
         if (employee == null) {
-            log.error("When searching for an employee with identificationNumber {}, not found!", identificationNumber);
+            log.error("When searching for an employee with identificationNumber {}, not found!", identityNumber);
 
-            throw new ResourceNotFoundException("Not found employee with identificationNumber " + identificationNumber);
+            throw new ResourceNotFoundException("Not found employee with identificationNumber " + identityNumber);
         }
 
-        log.info("When searching for employee with identificationNumber {}, found: {}", identificationNumber, employee.toString());
+        log.info("When searching for employee with identificationNumber {}, found: {}", identityNumber, employee.toString());
 
-        EmployeeResponseDto employeeResponse = modelMapper.map(employee, EmployeeResponseDto.class);
+        EmployeeResultsResponseDto employeeResponse = getEmployeeWithNamesResponseDto(employee);
 
-        return employeeResponse;
+        List<Result> results = resultRepository.findResultByEmployeesId(employee.getId());
+
+        return getEmployeeResultsResponseDto(employeeResponse, results);
     }
 
     @Override
@@ -279,10 +281,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeResultsResponseDto getEmployeeWithNamesResponseDto(Employee e) {
         EmployeeResultsResponseDto responseEmployee = modelMapper.map(e, EmployeeResultsResponseDto.class);
 
-        String employeeNames = e.getFirstName() + " " + e.getLastName();
-        responseEmployee.setEmployeeNames(employeeNames);
+        String employeeNames = String.format("%s %s", e.getFirstName(), e.getLastName());
         Integer employeeIdentityNumber = e.getIdentificationNumber();
+
+        responseEmployee.setEmployeeNames(employeeNames);
         responseEmployee.setIdentificationNumber(employeeIdentityNumber);
+
         return responseEmployee;
     }
 

@@ -23,14 +23,6 @@ public interface EmployeeService {
     EmployeeResponseDto findEmployeeById(Long id);
 
     /**
-     * Method that searches for employee by his/her identificationNumber
-     *
-     * @param identificationNumber of the {@link Employee}
-     * @return found Employee wrapped into {@link EmployeeResponseDto}
-     */
-    EmployeeResponseDto findEmployeeByIdentityNumber(Integer identificationNumber);
-
-    /**
      * Method that searches for all employees in the database
      *
      * @return list of Employee Objects wrapped into {@link EmployeeResponseDto}
@@ -63,4 +55,12 @@ public interface EmployeeService {
      * filtered by the passed parameter
      */
     List<EmployeeResultsResponseDto> findAllEmployeesResults(Conclusion conclusion, Integer year);
+
+    /**
+     * Method that searches for an employee and his/her results by his/her identificationNumber
+     *
+     * @param identityNumber of the {@link Employee}
+     * @return found Employee wrapped into {@link EmployeeResultsResponseDto}
+     */
+    EmployeeResultsResponseDto findEmployeeAndResultsByIdentityNumber(Integer identityNumber);
 }

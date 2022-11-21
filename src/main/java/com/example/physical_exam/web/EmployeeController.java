@@ -73,20 +73,20 @@ public class EmployeeController {
     }
 
     /**
-     * Endpoint for making a request to search for a specified employee by its identification number
+     * Endpoint for making a request to search for a specified employee and his results by its identification number
      *
      * @param identityNumber of the searched employee
-     * @return found {@link EmployeeResponseDto} by the identification number
+     * @return found {@link EmployeeResultsResponseDto} by the identification number
      */
     @Operation(
             tags = "employee",
-            summary = "Method for searching an employee by identificationNumber.",
-            operationId = "findEmployeeByIdentityNumber",
+            summary = "Method for searching an employee and his/her results by identificationNumber.",
+            operationId = "findEmployeeAndResultsByIdentityNumber",
             parameters = {@Parameter(in = ParameterIn.QUERY, name = "identityNumber", description = "identificationNumber of the searched employee", example = "1")},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = EmployeeResponseDto.class),
+                            content = @Content(schema = @Schema(implementation = EmployeeResultsResponseDto.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Successful operation!"),
                     @ApiResponse(
@@ -99,9 +99,9 @@ public class EmployeeController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Not Found!")})
     @GetMapping("/identityNumber")
-    public EmployeeResponseDto getEmployeeByIdentificationNumber(@RequestParam(name = "identityNumber") Integer identityNumber) {
+    public EmployeeResultsResponseDto getEmployeeWithResultsByIdentificationNumber(@RequestParam(name = "identityNumber") Integer identityNumber) {
 
-        EmployeeResponseDto employeeResponseDto = employeeService.findEmployeeByIdentityNumber(identityNumber);
+        EmployeeResultsResponseDto employeeResponseDto = employeeService.findEmployeeAndResultsByIdentityNumber(identityNumber);
 
         return employeeResponseDto;
     }
