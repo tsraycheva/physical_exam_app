@@ -73,7 +73,7 @@ public class ResultController {
 
     /**
      * Endpoint that makes request to find all results. They may be obtained by specified year of performance,
-     * conclusion of performance and sorted by employee id ACS ot DESC. However, the params are nor required
+     * conclusion of performance and sorted by year of performance ACS ot DESC. However, the params are not required
      * and if none of them is passed, all the results will appear.
      *
      * @param year of performance Integer
@@ -84,7 +84,7 @@ public class ResultController {
      */
     @Operation(
             tags  = "result",
-            summary = "Method for searching all results by year of performance and/or conclusion, ordered by employee id.",
+            summary = "Method for searching all results by year of performance and/or conclusion.",
             operationId = "findAllResults",
             parameters = {
                     @Parameter(
@@ -119,17 +119,8 @@ public class ResultController {
     public List<ResultResponseDto> getAllResultsByYearAndByConclusion(@RequestParam(required = false) Integer year,
                                                                       @RequestParam(required = false) Conclusion conclusion,
                                                                       @RequestParam(required = false) SortingOrder order) {
-        List<ResultResponseDto> results;
 
-        if (conclusion == null && year != null) {
-            results = resultService.findResultsForSpecifiedYear(year, order);
-        } else if (conclusion != null && year == null) {
-            results = resultService.findAllResultsByConclusion(conclusion, order);
-        } else if (conclusion == null && year == null) {
-            results = resultService.findAllResults();
-        } else {
-            results = resultService.findResultsByYearAndByConclusion(year, conclusion, order);
-        }
+        List<ResultResponseDto> results = resultService.findAllResultsByYearAndConclusion(year, conclusion, order);
 
         return results;
     }

@@ -68,8 +68,32 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<ResultResponseDto> findAllResultsByConclusion(Conclusion conclusion, SortingOrder order) {
-        List<Result> results = resultRepository.findAllByConclusionOrderByEmployeesId(conclusion);
+    public List<ResultResponseDto> findAllResultsByYearAndConclusion(Integer year, Conclusion conclusion, SortingOrder order) {
+
+        List<ResultResponseDto> results;
+
+        if (conclusion == null && year != null) {
+            results = findResultsForSpecifiedYear(year, order);
+        } else if (conclusion != null && year == null) {
+            results = findResultsByConclusion(conclusion, order);
+        } else if (conclusion == null && year == null) {
+            results = findAllResults();
+        } else {
+            results = findResultsByYearAndByConclusion(year, conclusion, order);
+        }
+
+        return results;
+    }
+
+    /**
+     * Method that searches for all results by {@link Conclusion}
+     *
+     * @param conclusion of performance {@link Conclusion}
+     * @param order      of appearance {@link SortingOrder}
+     * @return list of {@link ResultResponseDto} with all results by {@link Conclusion}
+     */
+    private List<ResultResponseDto> findResultsByConclusion(Conclusion conclusion, SortingOrder order) {
+        List<Result> results = resultRepository.findAllByConclusionOrderByYearOfPerformance(conclusion);
 
         if (order == SortingOrder.DESC) {
             Collections.reverse(results);
@@ -83,15 +107,22 @@ public class ResultServiceImpl implements ResultService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ResultResponseDto> findResultsByYearAndByConclusion(Integer year, Conclusion conclusion, SortingOrder order) {
-        List<Result> results = resultRepository.findAllByYearOfPerformanceAndConclusionOrderByEmployeesId(year, conclusion);
+    /**
+     * Method that searches for all results by year of performance and {@link Conclusion}
+     *
+     * @param year       of performance Integer
+     * @param conclusion of performance {@link Conclusion}
+     * @param order      of appearance {@link SortingOrder}
+     * @return list of {@link ResultResponseDto} with all results by specified year and conclusion
+     */
+    private List<ResultResponseDto> findResultsByYearAndByConclusion(Integer year, Conclusion conclusion, SortingOrder order) {
+        List<Result> results = resultRepository.findAllByYearOfPerformanceAndConclusionOrderByYearOfPerformance(year, conclusion);
 
         if (order == SortingOrder.DESC) {
             Collections.reverse(results);
         }
 
-        log.info("When searching for all results from exam performed in {} year wit {} conclusion, found {} results.",
+        log.info("When searching for all results from exam performed in {} year with {} conclusion, found {} results.",
                 year, conclusion, results.size());
 
         return results
@@ -100,9 +131,13 @@ public class ResultServiceImpl implements ResultService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ResultResponseDto> findAllResults() {
-        List<Result> results = resultRepository.findAll();
+    /**
+     * Method that searches for all results
+     *
+     * @return list of {@link ResultResponseDto} with all results
+     */
+    private List<ResultResponseDto> findAllResults() {
+        List<Result> results = resultRepository.findAllOrderByYearOfPerformance();
 
         log.info("When searching for all results, found {} results.", results.size());
 
@@ -112,9 +147,15 @@ public class ResultServiceImpl implements ResultService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ResultResponseDto> findResultsForSpecifiedYear(Integer year, SortingOrder order) {
-        List<Result> results = resultRepository.findAllByYearOfPerformanceOrderByEmployeesId(year);
+    /**
+     * Method that searches for all results by year
+     *
+     * @param year  of performance Integer
+     * @param order of appearance {@link SortingOrder}
+     * @return list of {@link ResultResponseDto} with all results by specified year
+     */
+    private List<ResultResponseDto> findResultsForSpecifiedYear(Integer year, SortingOrder order) {
+        List<Result> results = resultRepository.findAllByYearOfPerformance(year);
 
         if (order == SortingOrder.DESC) {
             Collections.reverse(results);
@@ -134,7 +175,7 @@ public class ResultServiceImpl implements ResultService {
      * gender of the employee
      *
      * @param resultCreationRequestDto {@link ResultCreationRequestDto} with
-     * all the data from the exam
+     *                                 all the data from the exam
      * @return {@link Conclusion} of the exam
      */
     private Conclusion makeConclusion(ResultCreationRequestDto resultCreationRequestDto) {
@@ -149,9 +190,9 @@ public class ResultServiceImpl implements ResultService {
         Conclusion conclusion;
 
         if (doPass(gender, CRUNCHES_EXERCISE, crunchesCount)
-                        && doPass(gender, JUMP_EXERCISE, jumpInCentimeters)
-                        && doPass(gender, PUSH_UPS_EXERCISE, pushUpsCount)
-                        && doPass(gender, RUNNING_EXERCISE, runningTimeInSeconds)) {
+                && doPass(gender, JUMP_EXERCISE, jumpInCentimeters)
+                && doPass(gender, PUSH_UPS_EXERCISE, pushUpsCount)
+                && doPass(gender, RUNNING_EXERCISE, runningTimeInSeconds)) {
 
             conclusion = Conclusion.PASSED;
         } else {
@@ -163,10 +204,10 @@ public class ResultServiceImpl implements ResultService {
 
     /**
      * Method that accepts the gender of the employee, his/her achievement and
-     *  the name of the exercise to check if he/she has passed successfully or failed
+     * the name of the exercise to check if he/she has passed successfully or failed
      *
-     * @param gender {@link Gender} of the {@link Employee}
-     * @param name of {@link Exercise}
+     * @param gender      {@link Gender} of the {@link Employee}
+     * @param name        of {@link Exercise}
      * @param achievement of the {@link Employee} doing the exercise
      * @return boolean true if the employee has passed or false if failed
      */
