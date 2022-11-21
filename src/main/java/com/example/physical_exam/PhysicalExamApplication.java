@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
+@EnableCaching
 @OpenAPIDefinition(
         info = @Info(title = "Physical Exam Application", version = "1"),
         servers = {@Server(url = "http://localhost:8080")},

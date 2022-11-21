@@ -8,6 +8,7 @@ import com.example.physical_exam.repository.ExerciseRepository;
 import com.example.physical_exam.service.ExerciseService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(value = "exercises")
     public List<ExerciseResponseDto> findAllExercises() {
         List<ExerciseResponseDto> allExercises =
                 exerciseRepository
@@ -40,6 +42,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(key = "#id", value = "exercises")
     public ExerciseResponseDto findExerciseById(Long id) {
         Exercise exercise = exerciseRepository.findById(id).orElse(null);
 
@@ -57,6 +60,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(key = "#gender", value = "exercises")
     public List<ExerciseResponseDto> findAllByGender(Gender gender) {
         List<Exercise> exercises = exerciseRepository.findAllByGender(gender);
         List<ExerciseResponseDto> allExercisesByGender =
@@ -71,6 +75,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(value = "exercises", key = "#name", unless = "#result.gender != gender")
     public Exercise findExerciseByGenderAndName(Gender gender, String name) {
         Exercise exercise = exerciseRepository.findExerciseByGenderAndName(gender, name).orElse(null);
 

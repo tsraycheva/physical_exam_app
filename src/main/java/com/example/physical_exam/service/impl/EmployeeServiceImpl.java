@@ -14,6 +14,8 @@ import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Cacheable(value = "employees", key = "#id")
     public EmployeeResponseDto findEmployeeById(Long id) {
 
         Employee employee = employeeRepository.findById(id).orElse(null);
@@ -53,6 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Cacheable(value = "employees", key = "#identificationNumber")
     public EmployeeResponseDto findEmployeeByIdentityNumber(Integer identificationNumber) {
 
         Employee employee = employeeRepository
@@ -73,6 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Cacheable(value = "employees")
     public List<EmployeeResponseDto> findAllEmployees() {
 
         List<Employee> allEmployees = employeeRepository.findAll();
@@ -88,6 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Cacheable(value = "employees", key = "#gender")
     public List<EmployeeResponseDto> findAllByGender(Gender gender) {
         List<Employee> employees = employeeRepository.findAllByGenderOrderByFirstName(gender);
         List<EmployeeResponseDto> allEmployeesByGender =
@@ -102,6 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CacheEvict(value = {"employees"}, allEntries = true)
     public EmployeeResponseDto saveEmployee(EmployeeCreationRequestDto employeeRequestDto) {
         Employee employeeToSave = modelMapper.map(employeeRequestDto, Employee.class);
         Employee employeeEntity = employeeRepository.save(employeeToSave);
