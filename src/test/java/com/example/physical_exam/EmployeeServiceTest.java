@@ -1,11 +1,18 @@
 package com.example.physical_exam;
 
 import com.example.physical_exam.creator.EmployeeCreator;
+import com.example.physical_exam.creator.ResultCreator;
 import com.example.physical_exam.exception.ResourceNotFoundException;
+import com.example.physical_exam.model.dto.request.EmployeeCreationRequestDto;
 import com.example.physical_exam.model.dto.response.EmployeeResponseDto;
+import com.example.physical_exam.model.dto.response.EmployeeResultsResponseDto;
+import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Employee;
+import com.example.physical_exam.model.entity.Result;
+import com.example.physical_exam.model.enumeration.Conclusion;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.repository.EmployeeRepository;
+import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.impl.EmployeeServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,9 +38,14 @@ public class EmployeeServiceTest {
     private EmployeeRepository employeeRepository;
 
     @Mock
+    private ResultRepository resultRepository;
+
+    @Mock
     private ModelMapper modelMapper;
 
     private EmployeeCreator employeeCreator = new EmployeeCreator();
+
+    private ResultCreator resultCreator = new ResultCreator();
 
     @Test
     void whenFindEmployeeById_thenFoundEmployee() {
@@ -90,15 +102,61 @@ public class EmployeeServiceTest {
 
         Gender gender = maleTrifonEmployee.getGender();
 
-        List<Employee> allByGender = List.of(maleTrifonEmployee, malePeshoEmployee);
+        List<Employee> allByGender = List.of(malePeshoEmployee, maleTrifonEmployee);
 
         when(employeeRepository.findAllByGenderOrderByFirstName(gender)).thenReturn(allByGender);
         when(modelMapper.map(malePeshoEmployee, EmployeeResponseDto.class)).thenReturn(malePeshoEmployeeDto);
         when(modelMapper.map(maleTrifonEmployee, EmployeeResponseDto.class)).thenReturn(maleTrifonEmployeeDto);
 
-
         List<EmployeeResponseDto> foundEmployeesByGender = employeeService.findAllByGender(gender);
 
         assertEquals(allByGender.size(), foundEmployeesByGender.size());
+        assertEquals(gender, allByGender.get(0).getGender());
+    }
+
+    @Test
+    void whenSaveEmployee_thenSaved() {
+        EmployeeCreationRequestDto employeeRequestPesho = employeeCreator.createEmployeePeshoCreationRequestDto();
+        Employee employeePesho = employeeCreator.createMalePeshoEmployee();
+        EmployeeResponseDto employeePeshoResponse = employeeCreator.createMalePeshoEmployeeResponseDto();
+
+        when(modelMapper.map(employeeRequestPesho, Employee.class)).thenReturn(employeePesho);
+        when(employeeRepository.save(employeePesho)).thenReturn(employeePesho);
+        when(modelMapper.map(employeePesho, EmployeeResponseDto.class)).thenReturn(employeePeshoResponse);
+
+        EmployeeResponseDto savedEmployee = employeeService.saveEmployee(employeeRequestPesho);
+
+        assertEquals(employeePeshoResponse.getFirstName(), savedEmployee.getFirstName());
+        assertEquals(employeePeshoResponse.getLastName(), savedEmployee.getLastName());
+        assertEquals(employeePeshoResponse.getImageUrl(), savedEmployee.getImageUrl());
+        assertEquals(employeePeshoResponse.getGender(), savedEmployee.getGender());
+        assertEquals(employeePeshoResponse.getPosition(), savedEmployee.getPosition());
+        assertEquals(employeePeshoResponse.getIdentificationNumber(), savedEmployee.getIdentificationNumber());
+    }
+
+    @Test
+    void whenFindEmployeesWithResultsConclusionNotNullYearNull_thenOk() {
+        Employee employeePesho = employeeCreator.createMalePeshoEmployee();
+        List<Employee> employees = List.of(employeePesho);
+
+        EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
+        List<EmployeeResultsResponseDto> employeesResults = List.of(employeeResultsResponseDto);
+
+        Result result = resultCreator.createResult();
+        List<Result> employeeResult = List.of(result);
+
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+
+        when(employeeRepository.findAll()).thenReturn(employees);
+        when(modelMapper.map(employeePesho, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
+        when(resultRepository.findResultByEmployeesIdAndConclusion(null, Conclusion.PASSED)).thenReturn(employeeResult);
+        when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
+
+        List<EmployeeResultsResponseDto> foundByConclusion = employeeService.findAllEmployeesResults(Conclusion.PASSED, null);
+
+        assertEquals(employeesResults.size(), foundByConclusion.size());
+        assertEquals(employeesResults.get(0).getEmployeeNames(), foundByConclusion.get(0).getEmployeeNames());
+        assertEquals(employeesResults.get(0).getIdentificationNumber(), foundByConclusion.get(0).getIdentificationNumber());
+        assertEquals(employeesResults.get(0).getResultResponseDto().size(), foundByConclusion.get(0).getResultResponseDto().size());
     }
 }

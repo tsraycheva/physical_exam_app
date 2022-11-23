@@ -5,8 +5,7 @@ import com.example.physical_exam.model.entity.Exercise;
 import com.example.physical_exam.model.enumeration.Gender;
 
 /**
- * Class that is used to create {@link com.example.physical_exam.model.entity.Exercise},
- * {@link com.example.physical_exam.model.dto.response.ExerciseResponseDto} for test purposes
+ * Class that is used to create {@link Exercise} and {@link ExerciseResponseDto} for test purposes
  */
 public class ExerciseCreator {
 
