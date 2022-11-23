@@ -57,7 +57,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeResponse;
     }
 
-
     @Override
     @Cacheable(value = "employees", key = "#identityNumber")
     public EmployeeResultsResponseDto findEmployeeAndResultsByIdentityNumber(Integer identityNumber) {
