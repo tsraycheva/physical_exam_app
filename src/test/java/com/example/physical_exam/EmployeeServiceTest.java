@@ -76,24 +76,6 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void whenFindAll_thenFoundAll() {
-        Employee maleEmployee = employeeCreator.createMaleTrifonEmployee();
-        Employee femaleEmployee = employeeCreator.createFemaleEmployee();
-        EmployeeResponseDto maleEmployeeDto = employeeCreator.createMaleTrifonEmployeeResponseDto();
-        EmployeeResponseDto femaleEmployeeDto = employeeCreator.createFemaleEmployeeResponseDto();
-
-        List<Employee> allEmployees = List.of(maleEmployee, femaleEmployee);
-
-        when(employeeRepository.findAll()).thenReturn(allEmployees);
-        when(modelMapper.map(maleEmployee, EmployeeResponseDto.class)).thenReturn(maleEmployeeDto);
-        when(modelMapper.map(femaleEmployee, EmployeeResponseDto.class)).thenReturn(femaleEmployeeDto);
-
-        List<EmployeeResponseDto> allEmployeesDto = employeeService.findAllEmployees();
-
-        assertEquals(allEmployees.size(), allEmployeesDto.size());
-    }
-
-    @Test
     void whenFindAllByGender_thenFoundAll() {
         Employee maleTrifonEmployee = employeeCreator.createMaleTrifonEmployee();
         Employee malePeshoEmployee = employeeCreator.createMalePeshoEmployee();
@@ -158,5 +140,38 @@ public class EmployeeServiceTest {
         assertEquals(employeesResults.get(0).getEmployeeNames(), foundByConclusion.get(0).getEmployeeNames());
         assertEquals(employeesResults.get(0).getIdentificationNumber(), foundByConclusion.get(0).getIdentificationNumber());
         assertEquals(employeesResults.get(0).getResultResponseDto().size(), foundByConclusion.get(0).getResultResponseDto().size());
+    }
+
+    @Test
+    void whenFindAllEmployees_thenReturnAll() {
+        Employee employeeMale = employeeCreator.createMalePeshoEmployee();
+        Employee employeeFemale = employeeCreator.createFemaleEmployee();
+        List<Employee> expectedEmployees = List.of(employeeMale, employeeFemale);
+
+        EmployeeResponseDto employeeResponseDtoPesho = employeeCreator.createMalePeshoEmployeeResponseDto();
+        EmployeeResponseDto employeeResponseDtoFemale = employeeCreator.createFemaleEmployeeResponseDto();
+
+        when(employeeRepository.findAll()).thenReturn(expectedEmployees);
+        when(modelMapper.map(employeeMale, EmployeeResponseDto.class)).thenReturn(employeeResponseDtoPesho);
+        when(modelMapper.map(employeeFemale, EmployeeResponseDto.class)).thenReturn(employeeResponseDtoFemale);
+
+        List<EmployeeResponseDto> allActualFoundEmployees = employeeService.findAllEmployees();
+
+        Employee expectedEmployeeMale = expectedEmployees.get(0);
+
+        assertEquals(expectedEmployees.size(), allActualFoundEmployees.size(), "Employees count must be " + expectedEmployees.size() +
+                ", but actually it is " + allActualFoundEmployees.size());
+        EmployeeResponseDto actualEmployeeMale = allActualFoundEmployees.get(0);
+        assertEquals(expectedEmployeeMale.getGender(), actualEmployeeMale.getGender(), "Employee gender must be " +
+                expectedEmployeeMale.getGender() + ", but actually it is " + actualEmployeeMale.getGender());
+        assertEquals(expectedEmployeeMale.getPosition(), actualEmployeeMale.getPosition(), "Employee position must be " + expectedEmployeeMale.getPosition() +
+                ", but actually it is " + actualEmployeeMale.getPosition());
+        assertEquals(expectedEmployeeMale.getIdentificationNumber(), actualEmployeeMale.getIdentificationNumber(), "Employee identification number must be " +
+                expectedEmployeeMale.getIdentificationNumber() + ", but actually it is " + actualEmployeeMale.getIdentificationNumber());
+        assertEquals(expectedEmployeeMale.getFirstName(), actualEmployeeMale.getFirstName(), "Employee first name must be " + expectedEmployeeMale.getFirstName() +
+                ", but actually it is " + actualEmployeeMale.getFirstName());
+        assertEquals(expectedEmployeeMale.getLastName(), actualEmployeeMale.getLastName(), "Employee last name must be " + expectedEmployeeMale.getLastName() +
+                ", but actually it is " + actualEmployeeMale.getLastName());
+
     }
 }

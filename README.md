@@ -16,5 +16,5 @@ Execute:
 http://localhost:8080/swagger-ui/index.html
 
 ## The next steps will be creating
-1. unit tests for test coverage (in progress)
+1. unit tests for test coverage (in progress). Jacoco test report for test coverage may be generated.
 2. postman collection with possible requests
