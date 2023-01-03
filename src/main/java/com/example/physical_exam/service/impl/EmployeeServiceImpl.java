@@ -135,7 +135,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else if (conclusion != null && year != null) {
             foundEmployeesResponse = findAllEmployeesResultsByConclusionAndYear(conclusion, year, foundEmployees);
         } else {
-            foundEmployeesResponse = findAllEmployeesResults(foundEmployees);
+            foundEmployeesResponse = findAllEmployeesWithResults(foundEmployees);
         }
 
         log.info("When searching for all employees with results by conclusion - {} and year - {}, found {} employees.",
@@ -150,7 +150,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param foundEmployees list with all employees in database
      * @return list of {@link EmployeeResultsResponseDto} with data of all employees and their results
      */
-    private List<EmployeeResultsResponseDto> findAllEmployeesResults(List<Employee> foundEmployees) {
+    private List<EmployeeResultsResponseDto> findAllEmployeesWithResults(List<Employee> foundEmployees) {
         List<EmployeeResultsResponseDto> employees =
                 foundEmployees
                         .stream()

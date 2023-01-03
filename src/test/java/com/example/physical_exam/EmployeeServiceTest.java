@@ -48,6 +48,50 @@ public class EmployeeServiceTest {
     private ResultCreator resultCreator = new ResultCreator();
 
     @Test
+    void whenFindAllEmployees_thenReturnAll() {
+        Employee employeeMale = employeeCreator.createMalePeshoEmployee();
+        Employee employeeFemale = employeeCreator.createFemaleEmployee();
+        List<Employee> expectedEmployees = List.of(employeeMale, employeeFemale);
+
+        EmployeeResponseDto employeeResponseDtoPesho = employeeCreator.createMalePeshoEmployeeResponseDto();
+        EmployeeResponseDto employeeResponseDtoFemale = employeeCreator.createFemaleEmployeeResponseDto();
+
+        when(employeeRepository.findAll()).thenReturn(expectedEmployees);
+        when(modelMapper.map(employeeMale, EmployeeResponseDto.class)).thenReturn(employeeResponseDtoPesho);
+        when(modelMapper.map(employeeFemale, EmployeeResponseDto.class)).thenReturn(employeeResponseDtoFemale);
+
+        List<EmployeeResponseDto> allActualFoundEmployees = employeeService.findAllEmployees();
+
+        Employee expectedEmployeeMale = expectedEmployees.get(0);
+        Employee expectedEmployeeFemale = expectedEmployees.get(1);
+        EmployeeResponseDto actualEmployeeMale = allActualFoundEmployees.get(0);
+        EmployeeResponseDto actualEmployeeFemale = allActualFoundEmployees.get(1);
+
+        assertEquals(expectedEmployees.size(), allActualFoundEmployees.size(), "Employees count must be " + expectedEmployees.size() +
+                ", but actually it is " + allActualFoundEmployees.size());
+        assertEquals(expectedEmployeeMale.getGender(), actualEmployeeMale.getGender(), "Employee gender must be " +
+                expectedEmployeeMale.getGender() + ", but actually it is " + actualEmployeeMale.getGender());
+        assertEquals(expectedEmployeeMale.getPosition(), actualEmployeeMale.getPosition(), "Employee position must be " + expectedEmployeeMale.getPosition() +
+                ", but actually it is " + actualEmployeeMale.getPosition());
+        assertEquals(expectedEmployeeMale.getIdentificationNumber(), actualEmployeeMale.getIdentificationNumber(), "Employee identification number must be " +
+                expectedEmployeeMale.getIdentificationNumber() + ", but actually it is " + actualEmployeeMale.getIdentificationNumber());
+        assertEquals(expectedEmployeeMale.getFirstName(), actualEmployeeMale.getFirstName(), "Employee first name must be " + expectedEmployeeMale.getFirstName() +
+                ", but actually it is " + actualEmployeeMale.getFirstName());
+        assertEquals(expectedEmployeeMale.getLastName(), actualEmployeeMale.getLastName(), "Employee last name must be " + expectedEmployeeMale.getLastName() +
+                ", but actually it is " + actualEmployeeMale.getLastName());
+        assertEquals(expectedEmployeeFemale.getGender(), actualEmployeeFemale.getGender(), "Employee gender must be " +
+                expectedEmployeeFemale.getGender() + ", but actually it is " + actualEmployeeFemale.getGender());
+        assertEquals(expectedEmployeeFemale.getPosition(), actualEmployeeFemale.getPosition(), "Employee position must be " + expectedEmployeeFemale.getPosition() +
+                ", but actually it is " + actualEmployeeFemale.getPosition());
+        assertEquals(expectedEmployeeFemale.getIdentificationNumber(), actualEmployeeFemale.getIdentificationNumber(), "Employee identification number must be " +
+                expectedEmployeeFemale.getIdentificationNumber() + ", but actually it is " + actualEmployeeFemale.getIdentificationNumber());
+        assertEquals(expectedEmployeeFemale.getFirstName(), actualEmployeeFemale.getFirstName(), "Employee first name must be " + expectedEmployeeFemale.getFirstName() +
+                ", but actually it is " + actualEmployeeFemale.getFirstName());
+        assertEquals(expectedEmployeeFemale.getLastName(), actualEmployeeFemale.getLastName(), "Employee last name must be " + expectedEmployeeFemale.getLastName() +
+                ", but actually it is " + actualEmployeeFemale.getLastName());
+    }
+
+    @Test
     void whenFindEmployeeById_thenFoundEmployee() {
         Long id = 1L;
         Employee employee = employeeCreator.createFemaleEmployee();
@@ -143,35 +187,121 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void whenFindAllEmployees_thenReturnAll() {
-        Employee employeeMale = employeeCreator.createMalePeshoEmployee();
-        Employee employeeFemale = employeeCreator.createFemaleEmployee();
-        List<Employee> expectedEmployees = List.of(employeeMale, employeeFemale);
+    void whenFindEmployeesWithResultsConclusionNullYearNotNull_thenOk() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        List<Employee> employees = List.of(employee);
 
-        EmployeeResponseDto employeeResponseDtoPesho = employeeCreator.createMalePeshoEmployeeResponseDto();
-        EmployeeResponseDto employeeResponseDtoFemale = employeeCreator.createFemaleEmployeeResponseDto();
+        EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
+        List<EmployeeResultsResponseDto> expectedEmployeeResults = List.of(employeeResultsResponseDto);
 
-        when(employeeRepository.findAll()).thenReturn(expectedEmployees);
-        when(modelMapper.map(employeeMale, EmployeeResponseDto.class)).thenReturn(employeeResponseDtoPesho);
-        when(modelMapper.map(employeeFemale, EmployeeResponseDto.class)).thenReturn(employeeResponseDtoFemale);
+        Result result = resultCreator.createResult();
+        List<Result> employeeResult = List.of(result);
 
-        List<EmployeeResponseDto> allActualFoundEmployees = employeeService.findAllEmployees();
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
 
-        Employee expectedEmployeeMale = expectedEmployees.get(0);
+        when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
+        when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
+        when(employeeRepository.findAll()).thenReturn(employees);
+        when(resultRepository.findResultByEmployeesIdAndYearOfPerformance(employee.getId(), 2020)).thenReturn(employeeResult);
 
-        assertEquals(expectedEmployees.size(), allActualFoundEmployees.size(), "Employees count must be " + expectedEmployees.size() +
-                ", but actually it is " + allActualFoundEmployees.size());
-        EmployeeResponseDto actualEmployeeMale = allActualFoundEmployees.get(0);
-        assertEquals(expectedEmployeeMale.getGender(), actualEmployeeMale.getGender(), "Employee gender must be " +
-                expectedEmployeeMale.getGender() + ", but actually it is " + actualEmployeeMale.getGender());
-        assertEquals(expectedEmployeeMale.getPosition(), actualEmployeeMale.getPosition(), "Employee position must be " + expectedEmployeeMale.getPosition() +
-                ", but actually it is " + actualEmployeeMale.getPosition());
-        assertEquals(expectedEmployeeMale.getIdentificationNumber(), actualEmployeeMale.getIdentificationNumber(), "Employee identification number must be " +
-                expectedEmployeeMale.getIdentificationNumber() + ", but actually it is " + actualEmployeeMale.getIdentificationNumber());
-        assertEquals(expectedEmployeeMale.getFirstName(), actualEmployeeMale.getFirstName(), "Employee first name must be " + expectedEmployeeMale.getFirstName() +
-                ", but actually it is " + actualEmployeeMale.getFirstName());
-        assertEquals(expectedEmployeeMale.getLastName(), actualEmployeeMale.getLastName(), "Employee last name must be " + expectedEmployeeMale.getLastName() +
-                ", but actually it is " + actualEmployeeMale.getLastName());
+        List<EmployeeResultsResponseDto> actualFoundEmployeeWithResultsByYear = employeeService.findAllEmployeesResults(null, 2020);
 
+        assertEquals(expectedEmployeeResults.size(), actualFoundEmployeeWithResultsByYear.size());
+        assertEquals(expectedEmployeeResults.get(0).getEmployeeNames(), actualFoundEmployeeWithResultsByYear.get(0).getEmployeeNames());
+        assertEquals(expectedEmployeeResults.get(0).getIdentificationNumber(), actualFoundEmployeeWithResultsByYear.get(0).getIdentificationNumber());
+    }
+
+
+    @Test
+    void whenFindEmployeesWithResultsConclusionNotNullYearNotNull_thenOk() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        List<Employee> employees = List.of(employee);
+
+        EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
+        List<EmployeeResultsResponseDto> expectedEmployeeResults = List.of(employeeResultsResponseDto);
+
+        Result result = resultCreator.createResult();
+        List<Result> employeeResult = List.of(result);
+
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+
+        when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
+        when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
+        when(employeeRepository.findAll()).thenReturn(employees);
+        when(resultRepository.findResultByEmployeesIdAndConclusionAndYearOfPerformance(employee.getId(), Conclusion.PASSED, 2020))
+                .thenReturn(employeeResult);
+
+        List<EmployeeResultsResponseDto> actualFoundEmployeeWithResults = employeeService.findAllEmployeesResults(Conclusion.PASSED, 2020);
+
+        assertEquals(expectedEmployeeResults.size(), actualFoundEmployeeWithResults.size());
+        assertEquals(expectedEmployeeResults.get(0).getEmployeeNames(),
+                actualFoundEmployeeWithResults.get(0).getEmployeeNames());
+        assertEquals(expectedEmployeeResults.get(0).getIdentificationNumber(),
+                actualFoundEmployeeWithResults.get(0).getIdentificationNumber());
+    }
+
+    @Test
+    void whenFindEmployeesWithResultsConclusionNullYearNull_thenOk() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        List<Employee> employees = List.of(employee);
+
+        EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
+        List<EmployeeResultsResponseDto> expectedEmployeeResults = List.of(employeeResultsResponseDto);
+
+        Result result = resultCreator.createResult();
+        List<Result> employeeResult = List.of(result);
+
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+
+        when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
+        when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
+        when(employeeRepository.findAll()).thenReturn(employees);
+        when(resultRepository.findResultByEmployeesId(employee.getId())).thenReturn(employeeResult);
+
+        List<EmployeeResultsResponseDto> actualFoundEmployeeWithResults = employeeService.findAllEmployeesResults(null, null);
+
+        assertEquals(expectedEmployeeResults.size(), actualFoundEmployeeWithResults.size());
+        assertEquals(expectedEmployeeResults.get(0).getEmployeeNames(), actualFoundEmployeeWithResults.get(0).getEmployeeNames());
+        assertEquals(expectedEmployeeResults.get(0).getIdentificationNumber(), actualFoundEmployeeWithResults.get(0).getIdentificationNumber());
+    }
+
+    @Test
+    void whenFindEmployeeAndResultsByIdentityNumber_thenOk() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        Integer identityNumber = employee.getIdentificationNumber();
+
+        EmployeeResultsResponseDto expectedEmployeeWithResults = employeeCreator.createEmployeePeshoWithResults();
+
+        Result result = resultCreator.createResult();
+        List<Result> employeeResult = List.of(result);
+
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+
+        when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(expectedEmployeeWithResults);
+        when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
+        when(employeeRepository.findEmployeeByIdentificationNumber(identityNumber)).thenReturn(Optional.of(employee));
+        when(resultRepository.findResultByEmployeesId(employee.getId())).thenReturn(employeeResult);
+
+        EmployeeResultsResponseDto actualEmployeeWithResults = employeeService.findEmployeeAndResultsByIdentityNumber(identityNumber);
+
+        assertEquals(expectedEmployeeWithResults.getIdentificationNumber(), actualEmployeeWithResults.getIdentificationNumber(),
+                "Employee identity number must be " + expectedEmployeeWithResults.getIdentificationNumber() +
+                ", but actually it is " + actualEmployeeWithResults.getIdentificationNumber());
+        assertEquals(expectedEmployeeWithResults.getEmployeeNames(), actualEmployeeWithResults.getEmployeeNames(),
+                "Employee names must be " + expectedEmployeeWithResults.getEmployeeNames() +
+                ", but actually they are " + actualEmployeeWithResults.getEmployeeNames());
+        assertEquals(expectedEmployeeWithResults.getResultResponseDto().size(), actualEmployeeWithResults.getResultResponseDto().size(),
+                "Employee results count must be " + expectedEmployeeWithResults.getResultResponseDto().size() +
+                ", but actually it is " + actualEmployeeWithResults.getResultResponseDto().size());
+    }
+
+    @Test
+    void whenFindEmployeeAndResultsByIdentificationNumber_thenNotFound() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        Integer identityNumber = employee.getIdentificationNumber();
+
+        when(employeeRepository.findEmployeeByIdentificationNumber(identityNumber)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> employeeService.findEmployeeAndResultsByIdentityNumber(identityNumber));
     }
 }
