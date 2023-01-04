@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,14 +30,11 @@ import java.util.List;
  * Result Controller with endpoints related to {@link Result} Objects
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/physical_exam/result")
 public class ResultController {
 
     private final ResultService resultService;
-
-    public ResultController(ResultService resultService) {
-        this.resultService = resultService;
-    }
 
     /**
      * Endpoint for making a request for saving a result from exam of an employee

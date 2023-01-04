@@ -84,7 +84,7 @@ public class ResultServiceImpl implements ResultService {
      * Method that searches for all results by {@link Conclusion}
      *
      * @param conclusion of performance {@link Conclusion}
-     * @param order      of appearance {@link SortingOrder}
+     * @param order      of appearance {@link SortingOrder} by year of performance
      * @return list of {@link ResultResponseDto} with all results by {@link Conclusion}
      */
     private List<ResultResponseDto> findResultsByConclusion(Conclusion conclusion, SortingOrder order) {
@@ -107,11 +107,11 @@ public class ResultServiceImpl implements ResultService {
      *
      * @param year       of performance Integer
      * @param conclusion of performance {@link Conclusion}
-     * @param order      of appearance {@link SortingOrder}
+     * @param order      of appearance {@link SortingOrder} by result id
      * @return list of {@link ResultResponseDto} with all results by specified year and conclusion
      */
     private List<ResultResponseDto> findResultsByYearAndByConclusion(Integer year, Conclusion conclusion, SortingOrder order) {
-        List<Result> results = resultRepository.findAllByYearOfPerformanceAndConclusionOrderByYearOfPerformance(year, conclusion);
+        List<Result> results = resultRepository.findAllByYearOfPerformanceAndConclusionOrderById(year, conclusion);
 
         if (order == SortingOrder.DESC) {
             Collections.reverse(results);
@@ -127,7 +127,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     /**
-     * Method that searches for all results
+     * Method that searches for all results and returns a list with found results ordered by year of performance
      *
      * @return list of {@link ResultResponseDto} with all results
      */
@@ -146,11 +146,11 @@ public class ResultServiceImpl implements ResultService {
      * Method that searches for all results by year
      *
      * @param year  of performance Integer
-     * @param order of appearance {@link SortingOrder}
+     * @param order of appearance {@link SortingOrder} ordered by result id
      * @return list of {@link ResultResponseDto} with all results by specified year
      */
     private List<ResultResponseDto> findResultsForSpecifiedYear(Integer year, SortingOrder order) {
-        List<Result> results = resultRepository.findAllByYearOfPerformance(year);
+        List<Result> results = resultRepository.findAllByYearOfPerformanceOrderById(year);
 
         if (order == SortingOrder.DESC) {
             Collections.reverse(results);

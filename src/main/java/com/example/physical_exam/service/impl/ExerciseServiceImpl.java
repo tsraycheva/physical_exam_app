@@ -72,7 +72,6 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    @Cacheable(value = "exercises", key = "#name", unless = "#result.gender != gender")
     public Exercise findExerciseByGenderAndName(Gender gender, String name) {
         Exercise exercise = exerciseRepository.findExerciseByGenderAndName(gender, name).orElse(null);
 

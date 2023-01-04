@@ -13,9 +13,9 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
 
     List<Result> findAllByConclusionOrderByYearOfPerformance(Conclusion conclusion);
 
-    List<Result> findAllByYearOfPerformance(Integer year);
+    List<Result> findAllByYearOfPerformanceOrderById(Integer year);
 
-    List<Result> findAllByYearOfPerformanceAndConclusionOrderByYearOfPerformance(Integer year, Conclusion conclusion);
+    List<Result> findAllByYearOfPerformanceAndConclusionOrderById(Integer year, Conclusion conclusion);
 
     List<Result> findResultByEmployeesId(Long id);
 

@@ -95,7 +95,7 @@ public class ResultServiceTest {
 
         ResultResponseDto successfulResultDto = resultCreator.createResultResponseDtoPassed();
 
-        when(resultRepository.findAllByYearOfPerformanceAndConclusionOrderByYearOfPerformance(yearOfPerformance, conclusion))
+        when(resultRepository.findAllByYearOfPerformanceAndConclusionOrderById(yearOfPerformance, conclusion))
                 .thenReturn(expectedResults);
         when(modelMapper.map(successfulResult, ResultResponseDto.class)).thenReturn(successfulResultDto);
 
@@ -122,7 +122,7 @@ public class ResultServiceTest {
 
         ResultResponseDto successfulResultDto = resultCreator.createResultResponseDtoPassed();
 
-        when(resultRepository.findAllByYearOfPerformance(yearOfPerformance)).thenReturn(expectedResults);
+        when(resultRepository.findAllByYearOfPerformanceOrderById(yearOfPerformance)).thenReturn(expectedResults);
         when(modelMapper.map(successfulResult, ResultResponseDto.class)).thenReturn(successfulResultDto);
 
         List<ResultResponseDto> actualResults = resultService.findAllResultsByYearAndConclusion(yearOfPerformance, null, SortingOrder.ASC);

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +28,11 @@ import java.util.List;
  * Exercise Controller with endpoints related to {@link Exercise} Objects
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/physical_exam/exercise")
 public class ExerciseController {
 
     private final ExerciseService exerciseService;
-
-    public ExerciseController(ExerciseService exerciseService) {
-        this.exerciseService = exerciseService;
-    }
 
     /**
      * Endpoint for making a request to search for a specified exercise by its id

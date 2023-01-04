@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,14 +31,11 @@ import java.util.List;
  * Employee Controller with endpoints related to {@link Employee} Objects
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/physical_exam/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     /**
      * Endpoint for making a request to search for a specified employee by its id
@@ -233,8 +231,8 @@ public class EmployeeController {
                             content = @Content(schema = @Schema(implementation = CanNotPerformOperationException.class),
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
-    @GetMapping
-    public List<EmployeeResultsResponseDto> getAllEmployeesAndResultsByConclusion(@RequestParam(required = false) Conclusion conclusion,
+    @GetMapping("/results")
+    public List<EmployeeResultsResponseDto> getAllEmployeesAndResultsByConclusionAndYear(@RequestParam(required = false) Conclusion conclusion,
                                                                                   @RequestParam(required = false) Integer year) {
 
         List<EmployeeResultsResponseDto> allEmployeesResults = employeeService.findAllEmployeesResults(conclusion, year);
