@@ -15,11 +15,12 @@ public class ResultCreator {
     private EmployeeCreator employeeCreator = new EmployeeCreator();
 
     /**
-     * Method that creates {@link Result} for list of {@link Employee} for test purposes
+     * Method that creates {@link Result} for list of {@link Employee} for test purposes with
+     * Conclusion PASSED
      *
      * @return {@link Result} with {@link Conclusion} PASSED
      */
-    public Result createResult() {
+    public Result createResultPassed() {
         Employee employee = employeeCreator.createMalePeshoEmployee();
         return new Result(
                 List.of(employee),
@@ -32,16 +33,50 @@ public class ResultCreator {
     }
 
     /**
-     * Method that creates {@link ResultResponseDto} for test purposes
+     * Method that creates {@link Result} for list of {@link Employee} for test purposes with
+     * Conclusion FAILED
+     *
+     * @return {@link Result} with {@link Conclusion} FAILED
+     */
+    public Result createResultFailed() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        return new Result(
+                List.of(employee),
+                2021,
+                420,
+                41,
+                40,
+                210,
+                Conclusion.FAILED);
+    }
+
+    /**
+     * Method that creates {@link ResultResponseDto} for test purposes with Conclusion PASSED
      *
      * @return {@link ResultResponseDto} with {@link Conclusion} PASSED
      */
-    public ResultResponseDto createResultResponseDto() {
-        return new ResultResponseDto(2020,
+    public ResultResponseDto createResultResponseDtoPassed() {
+        return new ResultResponseDto(
+                2020,
                 230,
                 44,
                 45,
                 210,
                 Conclusion.PASSED);
+    }
+
+    /**
+     * Method that creates {@link ResultResponseDto} for test purposes with Conclusion FAILED
+     *
+     * @return {@link ResultResponseDto} with {@link Conclusion} FAILED
+     */
+    public ResultResponseDto createResultResponseDtoFailed() {
+        return new ResultResponseDto(
+                2021,
+                420,
+                41,
+                40,
+                210,
+                Conclusion.FAILED);
     }
 }

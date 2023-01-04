@@ -168,10 +168,10 @@ public class EmployeeServiceTest {
         EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
         List<EmployeeResultsResponseDto> employeesResults = List.of(employeeResultsResponseDto);
 
-        Result result = resultCreator.createResult();
+        Result result = resultCreator.createResultPassed();
         List<Result> employeeResult = List.of(result);
 
-        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDtoPassed();
 
         when(employeeRepository.findAll()).thenReturn(employees);
         when(modelMapper.map(employeePesho, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
@@ -194,10 +194,10 @@ public class EmployeeServiceTest {
         EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
         List<EmployeeResultsResponseDto> expectedEmployeeResults = List.of(employeeResultsResponseDto);
 
-        Result result = resultCreator.createResult();
+        Result result = resultCreator.createResultPassed();
         List<Result> employeeResult = List.of(result);
 
-        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDtoPassed();
 
         when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
         when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
@@ -220,10 +220,10 @@ public class EmployeeServiceTest {
         EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
         List<EmployeeResultsResponseDto> expectedEmployeeResults = List.of(employeeResultsResponseDto);
 
-        Result result = resultCreator.createResult();
+        Result result = resultCreator.createResultPassed();
         List<Result> employeeResult = List.of(result);
 
-        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDtoPassed();
 
         when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
         when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
@@ -248,10 +248,10 @@ public class EmployeeServiceTest {
         EmployeeResultsResponseDto employeeResultsResponseDto = employeeCreator.createEmployeePeshoWithResults();
         List<EmployeeResultsResponseDto> expectedEmployeeResults = List.of(employeeResultsResponseDto);
 
-        Result result = resultCreator.createResult();
+        Result result = resultCreator.createResultPassed();
         List<Result> employeeResult = List.of(result);
 
-        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDtoPassed();
 
         when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(employeeResultsResponseDto);
         when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
@@ -272,10 +272,10 @@ public class EmployeeServiceTest {
 
         EmployeeResultsResponseDto expectedEmployeeWithResults = employeeCreator.createEmployeePeshoWithResults();
 
-        Result result = resultCreator.createResult();
+        Result result = resultCreator.createResultPassed();
         List<Result> employeeResult = List.of(result);
 
-        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDto();
+        ResultResponseDto resultResponseDto = resultCreator.createResultResponseDtoPassed();
 
         when(modelMapper.map(employee, EmployeeResultsResponseDto.class)).thenReturn(expectedEmployeeWithResults);
         when(modelMapper.map(result, ResultResponseDto.class)).thenReturn(resultResponseDto);
