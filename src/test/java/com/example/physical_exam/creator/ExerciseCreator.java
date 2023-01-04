@@ -10,38 +10,66 @@ import com.example.physical_exam.model.enumeration.Gender;
 public class ExerciseCreator {
 
     /**
-     * Method that creates new {@link Exercise} for test purposes
+     * Method that creates new {@link Exercise} long jump for test purposes
      *
      * @return {@link Exercise}
      */
-    public Exercise createExerciseJump() {
+    public Exercise createExerciseJumpMale() {
         return new Exercise("long jump", 200, Gender.MALE);
     }
 
     /**
-     * Method that creates new {@link ExerciseResponseDto} for test purposes
+     * Method that creates new {@link ExerciseResponseDto} long jump for test purposes
      *
      * @return {@link ExerciseResponseDto}
      */
-    public ExerciseResponseDto createExerciseResponseDtoJump() {
+    public ExerciseResponseDto createExerciseResponseDtoJumpMale() {
         return new ExerciseResponseDto("long jump", 200, Gender.MALE);
     }
 
     /**
-     * Method that creates new {@link Exercise} for test purposes
+     * Method that creates new {@link Exercise} long jump for test purposes for Female
      *
      * @return {@link Exercise}
      */
-    public Exercise createExerciseCrunches() {
-        return new Exercise("crunches", 40, Gender.FEMALE);
+    public Exercise createExerciseJumpFemale() {
+        return new Exercise("long jump", 180, Gender.MALE);
+    }
+
+
+    /**
+     * Method that creates new {@link Exercise} crunches for test purposes for Female
+     *
+     * @return {@link Exercise}
+     */
+    public Exercise createExerciseCrunchesFemale() {
+        return new Exercise("crunches", 30, Gender.FEMALE);
     }
 
     /**
-     * Method that creates new {@link ExerciseResponseDto} for test purposes
+     * Method that creates new {@link ExerciseResponseDto} crunches for test purposes for Female
      *
      * @return {@link ExerciseResponseDto}
      */
-    public ExerciseResponseDto createExerciseResponseDtoCrunches() {
-        return new ExerciseResponseDto("crunches", 40, Gender.FEMALE);
+    public ExerciseResponseDto createExerciseResponseDtoCrunchesFemale() {
+        return new ExerciseResponseDto("crunches", 30, Gender.FEMALE);
+    }
+
+    /**
+     * Method that creates new {@link Exercise} running for test purposes for Female
+     *
+     * @return {@link Exercise}
+     */
+    public Exercise createExerciseRunningFemale() {
+        return new Exercise("800 meters run", 270, Gender.FEMALE);
+    }
+
+    /**
+     * Method that creates new {@link Exercise} push-ups for test purposes for Female
+     *
+     * @return {@link Exercise}
+     */
+    public Exercise createExercisePushUpsFemale() {
+        return new Exercise("push-ups", 10, Gender.FEMALE);
     }
 }

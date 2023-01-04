@@ -1,11 +1,21 @@
 package com.example.physical_exam;
 
+import com.example.physical_exam.creator.EmployeeCreator;
+import com.example.physical_exam.creator.ExerciseCreator;
 import com.example.physical_exam.creator.ResultCreator;
+import com.example.physical_exam.model.dto.request.ResultCreationRequestDto;
+import com.example.physical_exam.model.dto.response.EmployeeResponseDto;
+import com.example.physical_exam.model.dto.response.ResultCreationResponseDto;
 import com.example.physical_exam.model.dto.response.ResultResponseDto;
+import com.example.physical_exam.model.entity.Employee;
+import com.example.physical_exam.model.entity.Exercise;
 import com.example.physical_exam.model.entity.Result;
 import com.example.physical_exam.model.enumeration.Conclusion;
+import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.model.enumeration.SortingOrder;
 import com.example.physical_exam.repository.ResultRepository;
+import com.example.physical_exam.service.EmployeeService;
+import com.example.physical_exam.service.ExerciseService;
 import com.example.physical_exam.service.impl.ResultServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +26,9 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ResultServiceTest {
@@ -29,9 +40,19 @@ public class ResultServiceTest {
     private ResultRepository resultRepository;
 
     @Mock
+    private EmployeeService employeeService;
+
+    @Mock
+    private ExerciseService exerciseService;
+
+    @Mock
     private ModelMapper modelMapper;
 
     private ResultCreator resultCreator = new ResultCreator();
+
+    private EmployeeCreator employeeCreator = new EmployeeCreator();
+
+    private ExerciseCreator exerciseCreator = new ExerciseCreator();
 
     @Test
     void whenFindAllResultsByYearAndConclusionNull_thenFoundAll() {
@@ -174,7 +195,64 @@ public class ResultServiceTest {
     }
 
     @Test
-    void whenSaveResult_thenSavedSuccessfully() {
+    void whenSaveResultPassed_thenSavedSuccessfully() {
+        ResultCreationRequestDto resultCreationRequestDto = resultCreator.createResultCreationRequestDtoPassed();
+        Result resultToSave = resultCreator.createResultPassed();
+        ResultCreationResponseDto resultCreationResponseDto = resultCreator.createResultCreationResponseDtoPassed();
 
+        EmployeeResponseDto employeeDto = employeeCreator.createMalePeshoEmployeeResponseDto();
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        Long employeeId = 1L;
+        Gender gender = employee.getGender();
+
+        Exercise exerciseJump = exerciseCreator.createExerciseJumpFemale();
+        Exercise exerciseCrunches = exerciseCreator.createExerciseCrunchesFemale();
+        Exercise exerciseRunning = exerciseCreator.createExerciseRunningFemale();
+        Exercise exercisePushUps = exerciseCreator.createExercisePushUpsFemale();
+
+        when(modelMapper.map(resultCreationRequestDto, Result.class)).thenReturn(resultToSave);
+        when(modelMapper.map(resultToSave, ResultCreationResponseDto.class)).thenReturn(resultCreationResponseDto);
+        when(modelMapper.map(employeeDto, Employee.class)).thenReturn(employee);
+        when(employeeService.findEmployeeById(employeeId)).thenReturn(employeeDto);
+        when(resultRepository.save(any(Result.class))).thenReturn(resultToSave);
+        when(exerciseService.findExerciseByGenderAndName(gender, exerciseJump.getName())).thenReturn(exerciseJump);
+        when(exerciseService.findExerciseByGenderAndName(gender, exerciseCrunches.getName())).thenReturn(exerciseCrunches);
+        when(exerciseService.findExerciseByGenderAndName(gender, exerciseRunning.getName())).thenReturn(exerciseRunning);
+        when(exerciseService.findExerciseByGenderAndName(gender, exercisePushUps.getName())).thenReturn(exercisePushUps);
+
+        ResultCreationResponseDto actualResultResponse = resultService.saveResult(resultCreationRequestDto);
+
+        assertEquals(resultCreationRequestDto.getCrunchesCount(), actualResultResponse.getCrunchesCount());
+    }
+
+    @Test
+    void whenSaveResultFailed_thenSavedSuccessfully() {
+        ResultCreationRequestDto resultCreationRequestDto = resultCreator.createResultCreationRequestDtoFailed();
+        Result resultToSave = resultCreator.createResultFailed();
+        ResultCreationResponseDto resultCreationResponseDto = resultCreator.createResultCreationResponseDtoFailed();
+
+        EmployeeResponseDto employeeDto = employeeCreator.createMalePeshoEmployeeResponseDto();
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        Long employeeId = 1L;
+        Gender gender = employee.getGender();
+
+        Exercise exerciseJump = exerciseCreator.createExerciseJumpFemale();
+        Exercise exerciseCrunches = exerciseCreator.createExerciseCrunchesFemale();
+        Exercise exerciseRunning = exerciseCreator.createExerciseRunningFemale();
+        Exercise exercisePushUps = exerciseCreator.createExercisePushUpsFemale();
+
+        when(modelMapper.map(resultCreationRequestDto, Result.class)).thenReturn(resultToSave);
+        when(modelMapper.map(resultToSave, ResultCreationResponseDto.class)).thenReturn(resultCreationResponseDto);
+        when(modelMapper.map(employeeDto, Employee.class)).thenReturn(employee);
+        when(employeeService.findEmployeeById(employeeId)).thenReturn(employeeDto);
+        when(resultRepository.save(any(Result.class))).thenReturn(resultToSave);
+        when(exerciseService.findExerciseByGenderAndName(gender, exerciseJump.getName())).thenReturn(exerciseJump);
+        when(exerciseService.findExerciseByGenderAndName(gender, exerciseCrunches.getName())).thenReturn(exerciseCrunches);
+        when(exerciseService.findExerciseByGenderAndName(gender, exerciseRunning.getName())).thenReturn(exerciseRunning);
+        when(exerciseService.findExerciseByGenderAndName(gender, exercisePushUps.getName())).thenReturn(exercisePushUps);
+
+        ResultCreationResponseDto actualResultResponse = resultService.saveResult(resultCreationRequestDto);
+
+        assertEquals(resultCreationRequestDto.getCrunchesCount(), actualResultResponse.getCrunchesCount());
     }
 }

@@ -38,8 +38,8 @@ public class ExerciseServiceTest {
     @Test
     void whenGetExerciseById_thenFoundCorrectExercise() {
         Long id = 1L;
-        Exercise exercise = exerciseCreator.createExerciseJump();
-        ExerciseResponseDto responseDto = exerciseCreator.createExerciseResponseDtoJump();
+        Exercise exercise = exerciseCreator.createExerciseJumpMale();
+        ExerciseResponseDto responseDto = exerciseCreator.createExerciseResponseDtoJumpMale();
 
         when(exerciseRepository.findById(id)).thenReturn(Optional.of(exercise));
         when(modelMapper.map(exercise, ExerciseResponseDto.class)).thenReturn(responseDto);
@@ -53,7 +53,7 @@ public class ExerciseServiceTest {
 
     @Test
     void whenFindByGenderAndName_thenFoundCorrectExercise() {
-        Exercise exercise = exerciseCreator.createExerciseJump();
+        Exercise exercise = exerciseCreator.createExerciseJumpMale();
         Gender gender = exercise.getGender();
         String name = exercise.getName();
 
@@ -68,10 +68,10 @@ public class ExerciseServiceTest {
 
     @Test
     void whenFindAllExercises_thenFoundAll() {
-        Exercise jump = exerciseCreator.createExerciseJump();
-        Exercise crunches = exerciseCreator.createExerciseCrunches();
-        ExerciseResponseDto responseDtoJump = exerciseCreator.createExerciseResponseDtoJump();
-        ExerciseResponseDto responseDtoCrunches = exerciseCreator.createExerciseResponseDtoCrunches();
+        Exercise jump = exerciseCreator.createExerciseJumpMale();
+        Exercise crunches = exerciseCreator.createExerciseCrunchesFemale();
+        ExerciseResponseDto responseDtoJump = exerciseCreator.createExerciseResponseDtoJumpMale();
+        ExerciseResponseDto responseDtoCrunches = exerciseCreator.createExerciseResponseDtoCrunchesFemale();
 
         List<Exercise> allExercises = List.of(jump, crunches);
 
@@ -86,8 +86,8 @@ public class ExerciseServiceTest {
 
     @Test
     void whenFindAllExercisesByGender_thenFoundCorrect() {
-        Exercise crunches = exerciseCreator.createExerciseCrunches();
-        ExerciseResponseDto responseDtoCrunches = exerciseCreator.createExerciseResponseDtoCrunches();
+        Exercise crunches = exerciseCreator.createExerciseCrunchesFemale();
+        ExerciseResponseDto responseDtoCrunches = exerciseCreator.createExerciseResponseDtoCrunchesFemale();
         Gender gender = crunches.getGender();
 
         List<Exercise> allFemale = List.of(crunches);

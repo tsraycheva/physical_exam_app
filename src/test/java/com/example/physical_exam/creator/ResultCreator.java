@@ -1,5 +1,7 @@
 package com.example.physical_exam.creator;
 
+import com.example.physical_exam.model.dto.request.ResultCreationRequestDto;
+import com.example.physical_exam.model.dto.response.ResultCreationResponseDto;
 import com.example.physical_exam.model.dto.response.ResultResponseDto;
 import com.example.physical_exam.model.entity.Employee;
 import com.example.physical_exam.model.entity.Result;
@@ -78,5 +80,81 @@ public class ResultCreator {
                 40,
                 210,
                 Conclusion.FAILED);
+    }
+
+    /**
+     * Method that creates {@link ResultCreationRequestDto} for test purposes with successful results
+     *
+     * @return {@link ResultCreationRequestDto}
+     */
+    public ResultCreationRequestDto createResultCreationRequestDtoPassed() {
+        Long employeeId = 1L;
+
+        return new ResultCreationRequestDto(
+                employeeId,
+                2020,
+                230,
+                44,
+                45,
+                210
+        );
+    }
+
+    /**
+     * Method that creates {@link ResultCreationRequestDto} for test purposes with unsuccessful results
+     *
+     * @return {@link ResultCreationRequestDto}
+     */
+    public ResultCreationRequestDto createResultCreationRequestDtoFailed() {
+        Long employeeId = 1L;
+
+        return new ResultCreationRequestDto(
+                employeeId,
+                2021,
+                420,
+                41,
+                40,
+                210
+        );
+    }
+
+    /**
+     * Method that creates {@link ResultCreationResponseDto} for test purposes with successful results
+     *
+     * @return {@link ResultCreationResponseDto}
+     */
+    public ResultCreationResponseDto createResultCreationResponseDtoPassed() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        String employeeNames = String.format("%s %s",employee.getFirstName(), employee.getLastName());
+
+        return new ResultCreationResponseDto(
+                employeeNames,
+                2020,
+                230,
+                44,
+                45,
+                210,
+                Conclusion.PASSED
+        );
+    }
+
+    /**
+     * Method that creates {@link ResultCreationResponseDto} for test purposes with unsuccessful results
+     *
+     * @return {@link ResultCreationResponseDto}
+     */
+    public ResultCreationResponseDto createResultCreationResponseDtoFailed() {
+        Employee employee = employeeCreator.createMalePeshoEmployee();
+        String employeeNames = String.format("%s %s",employee.getFirstName(), employee.getLastName());
+
+        return new ResultCreationResponseDto(
+                employeeNames,
+                2021,
+                420,
+                41,
+                40,
+                210,
+                Conclusion.FAILED
+        );
     }
 }
