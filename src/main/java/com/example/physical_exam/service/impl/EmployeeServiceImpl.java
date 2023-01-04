@@ -12,6 +12,7 @@ import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.repository.EmployeeRepository;
 import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,20 +24,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
     private final ResultRepository resultRepository;
-
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository,
-                               ModelMapper modelMapper,
-                               ResultRepository resultRepository) {
-        this.employeeRepository = employeeRepository;
-        this.modelMapper = modelMapper;
-
-        this.resultRepository = resultRepository;
-    }
 
     @Override
     @Cacheable(value = "employees", key = "#id")

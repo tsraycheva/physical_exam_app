@@ -14,6 +14,7 @@ import com.example.physical_exam.repository.ResultRepository;
 import com.example.physical_exam.service.EmployeeService;
 import com.example.physical_exam.service.ExerciseService;
 import com.example.physical_exam.service.ResultService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ResultServiceImpl implements ResultService {
 
     private static final String CRUNCHES_EXERCISE = "crunches";
@@ -35,13 +37,6 @@ public class ResultServiceImpl implements ResultService {
     private final ModelMapper modelMapper;
     private final EmployeeService employeeService;
     private final ExerciseService exerciseService;
-
-    public ResultServiceImpl(ResultRepository resultRepository, ModelMapper modelMapper, EmployeeService employeeService, ExerciseService exerciseService) {
-        this.resultRepository = resultRepository;
-        this.modelMapper = modelMapper;
-        this.employeeService = employeeService;
-        this.exerciseService = exerciseService;
-    }
 
     @Override
     public ResultCreationResponseDto saveResult(ResultCreationRequestDto requestDto) {

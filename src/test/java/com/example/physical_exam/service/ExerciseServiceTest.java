@@ -1,4 +1,4 @@
-package com.example.physical_exam;
+package com.example.physical_exam.service;
 
 import com.example.physical_exam.creator.ExerciseCreator;
 import com.example.physical_exam.exception.ResourceNotFoundException;

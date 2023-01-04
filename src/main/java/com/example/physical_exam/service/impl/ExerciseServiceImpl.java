@@ -6,6 +6,7 @@ import com.example.physical_exam.model.entity.Exercise;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.repository.ExerciseRepository;
 import com.example.physical_exam.service.ExerciseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,15 +17,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
     private final ModelMapper modelMapper;
-
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, ModelMapper modelMapper) {
-        this.exerciseRepository = exerciseRepository;
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     @Cacheable(value = "exercises")

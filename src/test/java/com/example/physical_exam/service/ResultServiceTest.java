@@ -1,4 +1,4 @@
-package com.example.physical_exam;
+package com.example.physical_exam.service;
 
 import com.example.physical_exam.creator.EmployeeCreator;
 import com.example.physical_exam.creator.ExerciseCreator;
@@ -14,8 +14,6 @@ import com.example.physical_exam.model.enumeration.Conclusion;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.model.enumeration.SortingOrder;
 import com.example.physical_exam.repository.ResultRepository;
-import com.example.physical_exam.service.EmployeeService;
-import com.example.physical_exam.service.ExerciseService;
 import com.example.physical_exam.service.impl.ResultServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
