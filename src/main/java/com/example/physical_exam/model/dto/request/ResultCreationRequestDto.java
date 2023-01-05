@@ -1,13 +1,12 @@
 package com.example.physical_exam.model.dto.request;
 
 import com.example.physical_exam.model.entity.Result;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_NOT_NULL;
 import static com.example.physical_exam.model.constant.ValidationMessages.RESULT_OF_EXECUTION_POSITIVE;

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
+
 /**
  * Class that holds info about the message, timeStamp and the status code of the operation
  */
