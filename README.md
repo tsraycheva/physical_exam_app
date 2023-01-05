@@ -13,8 +13,10 @@ Execute:
 2. docker compose up -d
 
 ### OpenApiDocumentation (Swagger)
-http://localhost:8080/swagger-ui/index.html
+To run Swagger go to address http://localhost:8080/swagger-ui/index.html
 
-## The next steps will be creating
-1. unit tests for test coverage (in progress). Jacoco test report for test coverage may be generated.
-2. postman collection with possible requests
+### Test report
+A JaCoCo is applied to the project. After executing test from Maven Lifecycle, the report could be found at **/physical_exam/target/site/jacoco/index.html**
+
+## The next step will be creating
+1. Spring Security
