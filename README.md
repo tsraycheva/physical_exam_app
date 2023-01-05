@@ -18,5 +18,5 @@ To run Swagger go to address http://localhost:8080/swagger-ui/index.html
 ### Test report
 A JaCoCo is applied to the project. After executing test from Maven Lifecycle, the report could be found at **/physical_exam/target/site/jacoco/index.html**
 
-## The next step will be creating
-1. Spring Security
+## The next step will be
+1. Implementing Spring Security (in progress)
