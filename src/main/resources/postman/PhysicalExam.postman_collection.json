@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "011cd909-23ba-4c75-88ee-34a0bc86a9d7",
+		"name": "PhysicalExam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "SaveAnEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Tsonka\",\r\n  \"lastName\": \"Tsvetkova\",\r\n  \"identificationNumber\": 56668,\r\n  \"imageUrl\": \"https://tsonkapicture.jpeg\",\r\n  \"gender\": \"FEMALE\",\r\n  \"position\": \"JUNIOR_FIREFIGHTER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllEmployeesByGender",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/gender?gender=MALE",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"gender"
+							],
+							"query": [
+								{
+									"key": "gender",
+									"value": "MALE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindEmployeeById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/2",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllEmployees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/all",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindEmployeeByIdentityNumber",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/identityNumber?identityNumber=97050",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"identityNumber"
+							],
+							"query": [
+								{
+									"key": "identityNumber",
+									"value": "97050"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindEmployeeByConclusionAndYear",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/results?year=2000&conclusion=FAILED",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"results"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2000"
+								},
+								{
+									"key": "conclusion",
+									"value": "FAILED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindEmployeeByYear",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/results?year=2000",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"results"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindEmployeeByConclusion",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/{{api}}/employee/results?conclusion=FAILED",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"employee",
+								"results"
+							],
+							"query": [
+								{
+									"key": "conclusion",
+									"value": "FAILED"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exercise",
+			"item": [
+				{
+					"name": "FindExerciseById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/exercise/2",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"exercise",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllExercises",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/exercise/all",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"exercise",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllExercisesByGender",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/exercise/?gender=MALE",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"exercise",
+								""
+							],
+							"query": [
+								{
+									"key": "gender",
+									"value": "MALE"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Result",
+			"item": [
+				{
+					"name": "SaveResult",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"employeeId\": 23,\r\n     \"yearOfPerformance\": 2022,\r\n     \"runningTimeInSeconds\": 220,\r\n     \"crunchesCount\": 38,\r\n     \"pushUpsCount\": 45,\r\n     \"jumpInCentimeters\": 230\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/{{api}}/result",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"result"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllResultsByYearConclusionAndSortingOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/result?year=2000&conclusion=FAILED&order=ASC",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"result"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2000"
+								},
+								{
+									"key": "conclusion",
+									"value": "FAILED"
+								},
+								{
+									"key": "order",
+									"value": "ASC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllResultsByConclusionAndSortingOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/result?conclusion=PASSED&order=DESC",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"result"
+							],
+							"query": [
+								{
+									"key": "conclusion",
+									"value": "PASSED"
+								},
+								{
+									"key": "order",
+									"value": "DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllResultsByYearAndSortingOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/{{api}}/result?year=2000&order=ASC",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"{{api}}",
+								"result"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2000"
+								},
+								{
+									"key": "order",
+									"value": "ASC"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
