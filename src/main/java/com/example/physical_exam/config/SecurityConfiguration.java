@@ -27,13 +27,11 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .anyRequest()
+                //TODO - permit swagger requests
+                .requestMatchers("/api/v1/physical_exam/auth/**")
                 .permitAll()
-                //TODO fix a problem with authentication
-//                .requestMatchers("/api/v1/physical_exam/auth/**")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
