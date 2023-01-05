@@ -4,5 +4,6 @@ CREATE TABLE users (
     last_name VARCHAR(50) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
-    role VARCHAR(5) NOT NULL
+    position VARCHAR(33) NOT NULL,
+    role VARCHAR(5)
 );

@@ -6,5 +6,7 @@ package com.example.physical_exam.model.enumeration;
 public enum Position {
     JUNIOR_FIREFIGHTER,
     REGULAR_FIREFIGHTER,
-    SENIOR_FIREFIGHTER
+    SENIOR_FIREFIGHTER,
+    HEAD_OF_FIRE_DEPARTMENT,
+    HUMAN_RESOURCES_EMPLOYEE
 }

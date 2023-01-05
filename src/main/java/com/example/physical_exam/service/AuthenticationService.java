@@ -1,7 +1,7 @@
 package com.example.physical_exam.service;
 
 import com.example.physical_exam.model.dto.request.AuthenticationRequest;
-import com.example.physical_exam.model.dto.request.UserRegisterRequest;
+import com.example.physical_exam.model.dto.request.UserRegisterRequestDto;
 import com.example.physical_exam.model.dto.response.AuthenticationResponse;
 import com.example.physical_exam.model.entity.User;
 /**
@@ -10,12 +10,12 @@ import com.example.physical_exam.model.entity.User;
 public interface AuthenticationService {
 
     /**
-     * Method that accepts {@link UserRegisterRequest} and saves the user to the DB
+     * Method that accepts {@link UserRegisterRequestDto} and saves the user to the DB
      *
-     * @param userRegisterRequest {@link UserRegisterRequest} with all needed data for register a {@link User}
+     * @param userRegisterRequest {@link UserRegisterRequestDto} with all needed data for register a {@link User}
      * @return {@link AuthenticationResponse} containing JWT
      */
-    AuthenticationResponse register(UserRegisterRequest userRegisterRequest);
+    AuthenticationResponse register(UserRegisterRequestDto userRegisterRequest);
 
     /**
      * Method that accepts {@link AuthenticationRequest} and checks if the {@link User} is authenticated

@@ -1,9 +1,10 @@
 package com.example.physical_exam.service.impl;
 
 import com.example.physical_exam.model.dto.request.AuthenticationRequest;
-import com.example.physical_exam.model.dto.request.UserRegisterRequest;
+import com.example.physical_exam.model.dto.request.UserRegisterRequestDto;
 import com.example.physical_exam.model.dto.response.AuthenticationResponse;
 import com.example.physical_exam.model.entity.User;
+import com.example.physical_exam.model.enumeration.Position;
 import com.example.physical_exam.model.enumeration.Role;
 import com.example.physical_exam.repository.UserRepository;
 import com.example.physical_exam.security.JwtService;
@@ -27,21 +28,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponse register(UserRegisterRequest userRegisterRequest) {
+    public AuthenticationResponse register(UserRegisterRequestDto userRegisterRequest) {
+        Position userPosition = userRegisterRequest.getPosition();
 
-        log.info("user with firstname {}, lastname {}, username {}, password {} and position is trying to register",
+        log.info("user with firstname {}, lastname {}, username {}, password {} and position {} is trying to register",
                 userRegisterRequest.getFirstName(),
                 userRegisterRequest.getLastName(),
                 userRegisterRequest.getUsername(),
-                userRegisterRequest.getPassword());
+                userRegisterRequest.getPassword(),
+                userPosition);
+
+        Role userRole;
+
+        if (userPosition.equals(Position.HEAD_OF_FIRE_DEPARTMENT)) {
+            userRole = Role.USER;
+        } else {
+            userRole = Role.ADMIN;
+        }
 
         var user = User.builder()
                 .firstName(userRegisterRequest.getFirstName())
                 .lastName(userRegisterRequest.getLastName())
                 .username(userRegisterRequest.getUsername())
                 .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
-                //TODO add position to USer Entity and choose the role that corresponds to the position
-                .role(Role.USER)
+                .role(userRole)
+                .position(userPosition)
                 .build();
 
         User savedUser = userRepository.save(user);
