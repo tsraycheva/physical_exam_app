@@ -4,6 +4,7 @@ Physical_exam is the BE part of an application for storing results from physical
 The requirements for the different exercises depend on the gender of the employees and there is conclusion if the specified employee has passed the exam 
 or has failed. The application stores the results by year and can produce different types of information.
 There are logging and caching implementations.
+The application development is in progress.
 
 ## Settings
 
@@ -20,3 +21,4 @@ A JaCoCo is applied to the project. After executing test from Maven Lifecycle, t
 
 ## The next step will be
 1. Implementing Spring Security (in progress)
+2. Exception handling
