@@ -2,6 +2,7 @@ package com.example.physical_exam.service;
 
 import com.example.physical_exam.model.dto.response.ExerciseResponseDto;
 import com.example.physical_exam.model.entity.Exercise;
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 
 import java.util.List;
@@ -40,8 +41,8 @@ public interface ExerciseService {
      * it is intended for
      *
      * @param gender that Exercise is intended for
-     * @param name   of the Exercise
+     * @param name   of the Exercise - {@link ExerciseEnum}
      * @return Object of type {@link Exercise}
      */
-    Exercise findExerciseByGenderAndName(Gender gender, String name);
+    Exercise findExerciseByGenderAndName(Gender gender, ExerciseEnum name);
 }

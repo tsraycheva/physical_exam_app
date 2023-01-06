@@ -3,6 +3,7 @@ package com.example.physical_exam.service.impl;
 import com.example.physical_exam.exception.ResourceNotFoundException;
 import com.example.physical_exam.model.dto.response.ExerciseResponseDto;
 import com.example.physical_exam.model.entity.Exercise;
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.repository.ExerciseRepository;
 import com.example.physical_exam.service.ExerciseService;
@@ -72,7 +73,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise findExerciseByGenderAndName(Gender gender, String name) {
+    public Exercise findExerciseByGenderAndName(Gender gender, ExerciseEnum name) {
         Exercise exercise = exerciseRepository.findExerciseByGenderAndName(gender, name).orElse(null);
 
         if (exercise == null) {

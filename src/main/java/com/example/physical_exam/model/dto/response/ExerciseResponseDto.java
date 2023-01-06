@@ -1,5 +1,6 @@
 package com.example.physical_exam.model.dto.response;
 
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.model.entity.Exercise;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ExerciseResponseDto {
 
-    private String name;
+    private ExerciseEnum name;
     private Integer requirement;
     private Gender gender;
 }

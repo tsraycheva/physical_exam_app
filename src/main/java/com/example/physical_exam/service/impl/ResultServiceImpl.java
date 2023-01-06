@@ -8,6 +8,7 @@ import com.example.physical_exam.model.entity.Employee;
 import com.example.physical_exam.model.entity.Exercise;
 import com.example.physical_exam.model.entity.Result;
 import com.example.physical_exam.model.enumeration.Conclusion;
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.model.enumeration.SortingOrder;
 import com.example.physical_exam.repository.ResultRepository;
@@ -23,15 +24,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.physical_exam.model.enumeration.ExerciseEnum.RUNNING;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ResultServiceImpl implements ResultService {
-
-    private static final String CRUNCHES_EXERCISE = "crunches";
-    private static final String JUMP_EXERCISE = "long jump";
-    private static final String PUSH_UPS_EXERCISE = "push-ups";
-    private static final String RUNNING_EXERCISE = "800 meters run";
 
     private final ResultRepository resultRepository;
     private final ModelMapper modelMapper;
@@ -184,10 +182,10 @@ public class ResultServiceImpl implements ResultService {
 
         Conclusion conclusion;
 
-        if (doPass(gender, CRUNCHES_EXERCISE, crunchesCount)
-                && doPass(gender, JUMP_EXERCISE, jumpInCentimeters)
-                && doPass(gender, PUSH_UPS_EXERCISE, pushUpsCount)
-                && doPass(gender, RUNNING_EXERCISE, runningTimeInSeconds)) {
+        if (doPass(gender, ExerciseEnum.CRUNCHES, crunchesCount)
+                && doPass(gender, ExerciseEnum.LONG_JUMP, jumpInCentimeters)
+                && doPass(gender, ExerciseEnum.PUSH_UPS, pushUpsCount)
+                && doPass(gender, RUNNING, runningTimeInSeconds)) {
 
             conclusion = Conclusion.PASSED;
         } else {
@@ -202,15 +200,15 @@ public class ResultServiceImpl implements ResultService {
      * the name of the exercise to check if he/she has passed successfully or failed
      *
      * @param gender      {@link Gender} of the {@link Employee}
-     * @param name        of {@link Exercise}
+     * @param name        of {@link Exercise} - Object of type {@link ExerciseEnum}
      * @param achievement of the {@link Employee} doing the exercise
      * @return boolean true if the employee has passed or false if failed
      */
-    private boolean doPass(Gender gender, String name, Integer achievement) {
+    private boolean doPass(Gender gender, ExerciseEnum name, Integer achievement) {
         Exercise exercise = exerciseService.findExerciseByGenderAndName(gender, name);
         Integer requirement = exercise.getRequirement();
 
-        if (name.equals(RUNNING_EXERCISE)) {
+        if (name.equals(ExerciseEnum.RUNNING)) {
             return requirement > achievement;
         }
 

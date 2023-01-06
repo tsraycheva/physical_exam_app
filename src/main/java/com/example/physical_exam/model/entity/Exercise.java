@@ -1,5 +1,6 @@
 package com.example.physical_exam.model.entity;
 
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import static com.example.physical_exam.model.constant.ValidationMessages.EMPLOYEE_GENDER_NOT_NULL;
-import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_VALIDATION_NAME_LENGTH;
+import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_VALIDATION_EXERCISE_LENGTH;
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_VALIDATION_NAME_NOT_BLANK;
 import static com.example.physical_exam.model.constant.ValidationMessages.REQUIREMENT_POSITIVE;
 
@@ -34,9 +35,10 @@ import static com.example.physical_exam.model.constant.ValidationMessages.REQUIR
 public class Exercise extends BaseEntity {
 
     @NotBlank(message = FIELD_VALIDATION_NAME_NOT_BLANK)
-    @Size(min = 5, max = 50, message = FIELD_VALIDATION_NAME_LENGTH)
+    @Enumerated(EnumType.STRING)
+    @Size(min = 7, max = 10, message = FIELD_VALIDATION_EXERCISE_LENGTH)
     @Column(name = "name")
-    private String name;
+    private ExerciseEnum name;
 
     @Positive(message = REQUIREMENT_POSITIVE)
     @Column(name = "requirement")

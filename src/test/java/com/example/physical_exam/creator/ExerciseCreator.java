@@ -2,6 +2,7 @@ package com.example.physical_exam.creator;
 
 import com.example.physical_exam.model.dto.response.ExerciseResponseDto;
 import com.example.physical_exam.model.entity.Exercise;
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 
 /**
@@ -15,7 +16,7 @@ public class ExerciseCreator {
      * @return {@link Exercise}
      */
     public Exercise createExerciseJumpMale() {
-        return new Exercise("long jump", 200, Gender.MALE);
+        return new Exercise(ExerciseEnum.LONG_JUMP, 200, Gender.MALE);
     }
 
     /**
@@ -24,7 +25,7 @@ public class ExerciseCreator {
      * @return {@link ExerciseResponseDto}
      */
     public ExerciseResponseDto createExerciseResponseDtoJumpMale() {
-        return new ExerciseResponseDto("long jump", 200, Gender.MALE);
+        return new ExerciseResponseDto(ExerciseEnum.LONG_JUMP, 200, Gender.MALE);
     }
 
     /**
@@ -33,7 +34,7 @@ public class ExerciseCreator {
      * @return {@link Exercise}
      */
     public Exercise createExerciseJumpFemale() {
-        return new Exercise("long jump", 180, Gender.MALE);
+        return new Exercise(ExerciseEnum.LONG_JUMP, 180, Gender.MALE);
     }
 
 
@@ -43,7 +44,7 @@ public class ExerciseCreator {
      * @return {@link Exercise}
      */
     public Exercise createExerciseCrunchesFemale() {
-        return new Exercise("crunches", 30, Gender.FEMALE);
+        return new Exercise(ExerciseEnum.CRUNCHES, 30, Gender.FEMALE);
     }
 
     /**
@@ -52,7 +53,7 @@ public class ExerciseCreator {
      * @return {@link ExerciseResponseDto}
      */
     public ExerciseResponseDto createExerciseResponseDtoCrunchesFemale() {
-        return new ExerciseResponseDto("crunches", 30, Gender.FEMALE);
+        return new ExerciseResponseDto(ExerciseEnum.CRUNCHES, 30, Gender.FEMALE);
     }
 
     /**
@@ -61,7 +62,7 @@ public class ExerciseCreator {
      * @return {@link Exercise}
      */
     public Exercise createExerciseRunningFemale() {
-        return new Exercise("800 meters run", 270, Gender.FEMALE);
+        return new Exercise(ExerciseEnum.RUNNING, 270, Gender.FEMALE);
     }
 
     /**
@@ -70,6 +71,6 @@ public class ExerciseCreator {
      * @return {@link Exercise}
      */
     public Exercise createExercisePushUpsFemale() {
-        return new Exercise("push-ups", 10, Gender.FEMALE);
+        return new Exercise(ExerciseEnum.PUSH_UPS, 10, Gender.FEMALE);
     }
 }

@@ -4,6 +4,7 @@ import com.example.physical_exam.creator.ExerciseCreator;
 import com.example.physical_exam.exception.ResourceNotFoundException;
 import com.example.physical_exam.model.dto.response.ExerciseResponseDto;
 import com.example.physical_exam.model.entity.Exercise;
+import com.example.physical_exam.model.enumeration.ExerciseEnum;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.repository.ExerciseRepository;
 import com.example.physical_exam.service.impl.ExerciseServiceImpl;
@@ -55,7 +56,7 @@ public class ExerciseServiceTest {
     void whenFindByGenderAndName_thenFoundCorrectExercise() {
         Exercise exercise = exerciseCreator.createExerciseJumpMale();
         Gender gender = exercise.getGender();
-        String name = exercise.getName();
+        ExerciseEnum name = exercise.getName();
 
         when(exerciseRepository.findExerciseByGenderAndName(gender, name)).thenReturn(Optional.of(exercise));
 
@@ -103,7 +104,7 @@ public class ExerciseServiceTest {
     @Test
     void whenFindByGenderAndName_thenNotFoundException() {
         Gender gender = Gender.FEMALE;
-        String name = "jump";
+        ExerciseEnum name = ExerciseEnum.LONG_JUMP;
 
         when(exerciseRepository.findExerciseByGenderAndName(gender, name))
                 .thenReturn(Optional.empty());

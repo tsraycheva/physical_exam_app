@@ -6,6 +6,7 @@ package com.example.physical_exam.model.constant;
 public class ValidationMessages {
 
     public static final String FIELD_VALIDATION_NAME_LENGTH = "Filed name must be between 3 and 50 characters!";
+    public static final String FIELD_VALIDATION_EXERCISE_LENGTH = "Filed exercise must be between 7 and 10 characters!";
     public static final String FIELD_VALIDATION_USERNAME_LENGTH = "Filed username must be between 10 and 50 characters!";
     public static final String FIELD_VALIDATION_NAME_NOT_BLANK = "Filed name must not be blank!";
     public static final String FIELD_VALIDATION_USERNAME_NOT_BLANK = "Filed username must not be blank!";
