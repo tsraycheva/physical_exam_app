@@ -1,5 +1,6 @@
 package com.example.physical_exam.service.impl;
 
+import com.example.physical_exam.exception.CanNotPerformOperationException;
 import com.example.physical_exam.model.dto.request.AuthenticationRequest;
 import com.example.physical_exam.model.dto.request.UserRegisterRequestDto;
 import com.example.physical_exam.model.dto.response.AuthenticationResponse;
@@ -37,6 +38,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 userRegisterRequest.getUsername(),
                 userRegisterRequest.getPassword(),
                 userPosition);
+
+        if (existsUsernameInDatabase(userRegisterRequest.getUsername())) {
+            throw new CanNotPerformOperationException("The username is already in use by another user! Please choose unique username!");
+        }
 
         Role userRole;
 
@@ -89,5 +94,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private boolean existsUsernameInDatabase(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 }

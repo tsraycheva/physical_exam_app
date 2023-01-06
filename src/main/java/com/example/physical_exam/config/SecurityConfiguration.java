@@ -27,7 +27,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                //TODO - permit swagger requests and remit ADMIN save employees and results
+                //TODO - permit swagger requests and permit ADMIN save employees and results
                 .requestMatchers("/api/v1/physical_exam/auth/**")
                 .permitAll()
                 .anyRequest()
