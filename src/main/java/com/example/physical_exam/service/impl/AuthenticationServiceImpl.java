@@ -46,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             userRole = Role.ADMIN;
         }
 
-        var user = User.builder()
+        User user = User.builder()
                 .firstName(userRegisterRequest.getFirstName())
                 .lastName(userRegisterRequest.getLastName())
                 .username(userRegisterRequest.getUsername())
@@ -65,7 +65,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 savedUser.getUsername(),
                 savedUser.getPassword());
 
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse
                 .builder()
@@ -79,11 +79,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 authenticationRequest.getUsername(),
                 authenticationRequest.getPassword()));
 
-        var user = userRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(
+        User user = userRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(
                 () -> new UsernameNotFoundException(String.format("User with username %s not found!", authenticationRequest.getUsername())));
 
 
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse
                 .builder()
