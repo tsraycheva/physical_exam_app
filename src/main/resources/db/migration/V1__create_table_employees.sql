@@ -5,5 +5,5 @@ CREATE TABLE employees (
     identification_number INT NOT NULL UNIQUE,
     image_url VARCHAR NOT NULL,
     gender VARCHAR(10) NOT NULL,
-    position VARCHAR(22) NOT NULL
+    position VARCHAR(33) NOT NULL
 );

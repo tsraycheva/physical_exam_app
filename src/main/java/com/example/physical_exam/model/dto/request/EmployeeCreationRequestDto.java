@@ -3,6 +3,7 @@ package com.example.physical_exam.model.dto.request;
 import com.example.physical_exam.model.entity.Employee;
 import com.example.physical_exam.model.enumeration.Gender;
 import com.example.physical_exam.model.enumeration.Position;
+import com.example.physical_exam.util.validator.ValidPosition;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,6 +19,9 @@ import static com.example.physical_exam.model.constant.ValidationMessages.EMPLOY
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_VALIDATION_NAME_LENGTH;
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_VALIDATION_NAME_NOT_BLANK;
 import static com.example.physical_exam.model.constant.ValidationMessages.IDENTIFICATION_NUMBER_POSITIVE;
+import static com.example.physical_exam.model.enumeration.Position.JUNIOR_FIREFIGHTER;
+import static com.example.physical_exam.model.enumeration.Position.REGULAR_FIREFIGHTER;
+import static com.example.physical_exam.model.enumeration.Position.SENIOR_FIREFIGHTER;
 
 /**
  * Request Dto class that is used for the input of saving {@link Employee}
@@ -46,5 +50,6 @@ public class EmployeeCreationRequestDto {
     private Gender gender;
 
     @NotNull(message = EMPLOYEE_POSITION_NOT_NULL)
+    @ValidPosition(anyOf = {SENIOR_FIREFIGHTER, REGULAR_FIREFIGHTER, JUNIOR_FIREFIGHTER})
     private Position position;
 }

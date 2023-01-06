@@ -15,6 +15,8 @@ public class ValidationMessages {
     public static final String EMPLOYEE_IMAGE_URL_NOT_EMPTY = "Employee image url must not be empty!";
     public static final String EMPLOYEE_GENDER_NOT_NULL = "Employee gender must not be null!";
     public static final String EMPLOYEE_POSITION_NOT_NULL = "Employee position must not be null!";
+    public static final String EMPLOYEE_POSITION_REGISTRATION_VALIDATION = "Employee position must be one of the following: HEAD_OF_FIRE_DEPARTMENT" +
+            "or HUMAN_RESOURCES_EMPLOYEE";
     public static final String REQUIREMENT_POSITIVE = "Requirement must be a positive number!";
     public static final String RESULT_OF_EXECUTION_POSITIVE = "Result of execution must be a positive number!";
     public static final String FIELD_ID_POSITIVE = "Id must be positive number!";

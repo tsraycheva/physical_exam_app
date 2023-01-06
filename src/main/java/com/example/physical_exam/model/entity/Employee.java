@@ -63,7 +63,7 @@ public class Employee extends BaseEntity {
 
     @NotNull(message = EMPLOYEE_POSITION_NOT_NULL)
     @Enumerated(EnumType.STRING)
-    @Column(name = "position", length = 22)
+    @Column(name = "position", length = 33)
     private Position position;
 
 }

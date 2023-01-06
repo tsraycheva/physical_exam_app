@@ -1,6 +1,7 @@
 package com.example.physical_exam.model.dto.request;
 
 import com.example.physical_exam.model.enumeration.Position;
+import com.example.physical_exam.util.validator.ValidPosition;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import static com.example.physical_exam.model.constant.ValidationMessages.EMPLOYEE_POSITION_NOT_NULL;
+import static com.example.physical_exam.model.constant.ValidationMessages.EMPLOYEE_POSITION_REGISTRATION_VALIDATION;
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_NOT_NULL;
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_PASSWORD_MIN_LENGTH;
 import static com.example.physical_exam.model.constant.ValidationMessages.FIELD_VALIDATION_NAME_LENGTH;
@@ -48,6 +50,8 @@ public class UserRegisterRequestDto {
 
     @NotNull(message = EMPLOYEE_POSITION_NOT_NULL)
     @Enumerated(EnumType.STRING)
+    @ValidPosition(anyOf = {Position.HEAD_OF_FIRE_DEPARTMENT, Position.HUMAN_RESOURCES_EMPLOYEE},
+    message = EMPLOYEE_POSITION_REGISTRATION_VALIDATION)
     @Column(name = "position", length = 33)
     private Position position;
 }
