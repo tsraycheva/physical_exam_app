@@ -21,4 +21,4 @@ A JaCoCo is applied to the project. After executing test from Maven Lifecycle, t
 
 ## The next step will be
 1. Implementing Spring Security (in progress)
-2. Exception handling
+2. Exception handling and validations
