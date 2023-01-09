@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,8 +14,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    private static final String[] SECURITY_WHITELIST = {
+            "/api/v1/physical_exam/auth/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"};
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
@@ -27,8 +34,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                //TODO - permit swagger requests and permit ADMIN save employees and results
-                .requestMatchers("/api/v1/physical_exam/auth/**", "/swagger-ui/**", "/v3/api-docs/**")
+                .requestMatchers(SECURITY_WHITELIST)
                 .permitAll()
                 .anyRequest()
                 .authenticated()

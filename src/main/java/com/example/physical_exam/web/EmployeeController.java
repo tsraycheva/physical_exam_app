@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -189,6 +190,7 @@ public class EmployeeController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public EmployeeResponseDto saveEmployee(@RequestBody EmployeeCreationRequestDto employeeRequestDto) {
         EmployeeResponseDto savedEmployee = employeeService.saveEmployee(employeeRequestDto);
 

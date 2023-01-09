@@ -32,11 +32,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse register(UserRegisterRequestDto userRegisterRequest) {
         Position userPosition = userRegisterRequest.getPosition();
 
-        log.info("user with firstname {}, lastname {}, username {}, password {} and position {} is trying to register",
+        log.info("user with firstname {}, lastname {}, username {} and position {} is trying to register",
                 userRegisterRequest.getFirstName(),
                 userRegisterRequest.getLastName(),
                 userRegisterRequest.getUsername(),
-                userRegisterRequest.getPassword(),
                 userPosition);
 
         if (existsUsernameInDatabase(userRegisterRequest.getUsername())) {
@@ -62,13 +61,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User savedUser = userRepository.save(user);
 
-        log.info("user with id {}, firstname {}, lastname {}, username {}, password {} and position is saved successfully!",
-
+        log.info("user with id {}, firstname {}, lastname {}, username {}, position {} and role {} is saved successfully!",
                 savedUser.getId(),
                 savedUser.getFirstName(),
                 savedUser.getLastName(),
                 savedUser.getUsername(),
-                savedUser.getPassword());
+                savedUser.getPosition(),
+                savedUser.getRole().name());
 
         String jwtToken = jwtService.generateToken(user);
 

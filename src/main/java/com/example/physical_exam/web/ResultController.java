@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +64,7 @@ public class ResultController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE),
                             description = "Operation failed!")})
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResultCreationResponseDto saveResult(@RequestBody @Valid ResultCreationRequestDto requestDto) {
         ResultCreationResponseDto savedResult = resultService.saveResult(requestDto);
 
