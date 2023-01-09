@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 //TODO - permit swagger requests and permit ADMIN save employees and results
-                .requestMatchers("/api/v1/physical_exam/auth/**")
+                .requestMatchers("/api/v1/physical_exam/auth/**", "/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
